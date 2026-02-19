@@ -65,7 +65,7 @@ const ContactPage = () => {
               Get in Touch
             </p>
             <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl text-charcoal mb-8 leading-tight">
-              Let's <span className="italic">connect.</span>
+              Let's <span className="italic aura-text">connect.</span>
             </h1>
             <p className="font-body text-lg text-text-secondary">
               Have questions about Divine Aura? We'd love to hear from you. 
