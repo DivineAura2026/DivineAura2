@@ -62,6 +62,11 @@ module.exports = {
           orange: '#FB923C',
           red: '#F87171',
         },
+        gold: {
+          DEFAULT: '#D4AF37',
+          light: '#F5E6C8',
+          dark: '#B8960C',
+        },
       },
       fontFamily: {
         display: ['Playfair Display', 'serif'],
