@@ -55,56 +55,57 @@ const HomePage = ({ onOpenWaitlist }) => {
         className="relative min-h-screen flex items-center justify-center"
         data-testid="hero-section"
       >
-        {/* Full-width Background Image */}
+        {/* Full-width Background Image - Soft Nature */}
         <div className="absolute inset-0">
           <img
-            src="https://images.pexels.com/photos/3785806/pexels-photo-3785806.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            src="https://images.unsplash.com/photo-1645586222783-d1062e1d3db6?auto=format&fit=crop&w=1920&q=80"
             alt="Divine Aura Beauty"
             className="w-full h-full object-cover"
           />
-          {/* Gradient Overlay for readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-charcoal/40 via-charcoal/30 to-charcoal/60" />
+          {/* Soft light gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-warm-bg/20 to-warm-bg/60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-warm-bg/40 via-transparent to-warm-bg/40" />
           
-          {/* Aura glow backdrop effect */}
+          {/* Aura glow backdrop effect - softer, brighter */}
           <div 
-            className="absolute inset-0 opacity-30 mix-blend-overlay"
+            className="absolute inset-0 opacity-40 mix-blend-soft-light"
             style={{
-              background: 'radial-gradient(ellipse at 50% 50%, rgba(216, 180, 254, 0.4) 0%, rgba(129, 140, 248, 0.3) 25%, rgba(110, 231, 183, 0.2) 50%, transparent 70%)',
+              background: 'radial-gradient(ellipse at 30% 40%, rgba(216, 180, 254, 0.5) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(110, 231, 183, 0.4) 0%, transparent 50%)',
             }}
           />
           <div 
-            className="absolute top-1/4 left-1/4 w-96 h-96 opacity-20 blur-3xl animate-aura-pulse"
+            className="absolute top-1/3 left-1/3 w-[500px] h-[500px] opacity-30 blur-3xl animate-aura-pulse"
             style={{
-              background: 'radial-gradient(circle, rgba(253, 224, 71, 0.5) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(253, 224, 71, 0.4) 0%, rgba(251, 146, 60, 0.2) 50%, transparent 70%)',
             }}
           />
           <div 
-            className="absolute bottom-1/4 right-1/4 w-80 h-80 opacity-20 blur-3xl animate-aura-pulse"
+            className="absolute bottom-1/3 right-1/3 w-96 h-96 opacity-25 blur-3xl animate-aura-pulse"
             style={{
-              background: 'radial-gradient(circle, rgba(216, 180, 254, 0.5) 0%, transparent 70%)',
-              animationDelay: '2s',
+              background: 'radial-gradient(circle, rgba(216, 180, 254, 0.5) 0%, rgba(129, 140, 248, 0.3) 50%, transparent 70%)',
+              animationDelay: '3s',
             }}
           />
         </div>
 
         {/* Floating Sparkles */}
-        <SparkleEffect count={30} className="z-10" />
+        <SparkleEffect count={25} className="z-10" />
 
         {/* Content */}
         <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
           <div className="stagger-children">
-            <p className="font-body text-sm tracking-[0.3em] uppercase text-white/80 mb-6 flex items-center justify-center gap-3">
+            <p className="font-body text-sm tracking-[0.3em] uppercase text-charcoal/70 mb-6 flex items-center justify-center gap-3">
               <span className="w-12 h-px bg-gradient-to-r from-transparent via-gold to-transparent"></span>
               Aura-Led Clean Beauty
               <span className="w-12 h-px bg-gradient-to-r from-transparent via-gold to-transparent"></span>
             </p>
             
-            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white mb-6 leading-tight">
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-charcoal mb-6 leading-tight drop-shadow-sm">
               Glow in Your<br />
               <span className="italic gold-text">True Aura.</span>
             </h1>
             
-            <p className="font-body text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
+            <p className="font-body text-lg md:text-xl text-charcoal/80 max-w-2xl mx-auto mb-10 leading-relaxed">
               Aura-led clean beauty for skin, hair & mineral makeup.<br className="hidden sm:block" />
               Formulated with intention, crafted for radiance.
             </p>
@@ -112,14 +113,14 @@ const HomePage = ({ onOpenWaitlist }) => {
             <div className="flex flex-wrap gap-4 justify-center">
               <button
                 onClick={onOpenWaitlist}
-                className="bg-white text-charcoal rounded-full px-8 py-4 font-body text-sm tracking-wider uppercase hover:bg-gold hover:text-charcoal transition-all duration-300 hover:shadow-lg hover:shadow-gold/30 shimmer-effect"
+                className="bg-charcoal text-white rounded-full px-8 py-4 font-body text-sm tracking-wider uppercase hover:bg-charcoal/90 transition-all duration-300 hover:shadow-xl shimmer-effect"
                 data-testid="hero-join-waitlist-btn"
               >
                 Join Waitlist
               </button>
               <a
                 href="#brand-story"
-                className="border border-white/40 text-white rounded-full px-8 py-4 font-body text-sm tracking-wider uppercase hover:bg-white/10 hover:border-white transition-all duration-300"
+                className="border border-charcoal/30 text-charcoal rounded-full px-8 py-4 font-body text-sm tracking-wider uppercase hover:bg-charcoal/5 hover:border-charcoal/50 transition-all duration-300 backdrop-blur-sm"
                 data-testid="hero-learn-more-btn"
               >
                 Learn Why We're Different
@@ -130,8 +131,8 @@ const HomePage = ({ onOpenWaitlist }) => {
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center pt-2">
-            <div className="w-1 h-2 bg-white/60 rounded-full animate-pulse" />
+          <div className="w-6 h-10 border-2 border-charcoal/30 rounded-full flex justify-center pt-2">
+            <div className="w-1 h-2 bg-charcoal/50 rounded-full animate-pulse" />
           </div>
         </div>
       </section>
