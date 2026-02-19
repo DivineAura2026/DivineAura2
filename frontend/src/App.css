@@ -305,6 +305,25 @@
   background-clip: text;
 }
 
+/* Aura spectrum gradient text (red, orange, yellow, green, blue, purple) */
+.aura-text {
+  background: linear-gradient(90deg, #F87171 0%, #FB923C 20%, #FDE047 40%, #6EE7B7 60%, #818CF8 80%, #D8B4FE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% auto;
+  animation: aura-text-shimmer 4s linear infinite;
+}
+
+@keyframes aura-text-shimmer {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
 /* Floating animation variants */
 @keyframes float-slow {
   0%, 100% {
