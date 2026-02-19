@@ -39,6 +39,7 @@ export const WaitlistModal = ({ isOpen, onClose }) => {
       <DialogContent 
         className="sm:max-w-md bg-warm-bg border-none shadow-2xl"
         data-testid="waitlist-modal"
+        aria-describedby="waitlist-description"
       >
         <DialogHeader>
           <button
@@ -62,7 +63,7 @@ export const WaitlistModal = ({ isOpen, onClose }) => {
               </DialogTitle>
             </div>
             
-            <p className="font-body text-text-secondary mb-8">
+            <p id="waitlist-description" className="font-body text-text-secondary mb-8">
               Get early access to launches, rituals, and exclusive offers.
             </p>
 

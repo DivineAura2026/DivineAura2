@@ -91,10 +91,11 @@ export const Navbar = ({ onOpenWaitlist }) => {
 
       {/* Mobile Menu Button */}
       <button
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        onClick={() => setIsMobileMenuOpen(prev => !prev)}
         className="md:hidden p-2 text-charcoal"
         data-testid="mobile-menu-toggle"
-        aria-label="Toggle menu"
+        aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+        aria-expanded={isMobileMenuOpen}
       >
         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
