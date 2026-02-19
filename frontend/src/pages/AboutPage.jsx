@@ -46,7 +46,7 @@ const AboutPage = () => {
               Our Story
             </p>
             <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl text-charcoal mb-8 leading-tight">
-              Beauty that <span className="italic">resonates</span><br />
+              Beauty that <span className="italic aura-text">resonates</span><br />
               with your soul.
             </h1>
             <p className="font-body text-lg text-text-secondary max-w-2xl">
