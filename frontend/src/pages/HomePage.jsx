@@ -102,7 +102,7 @@ const HomePage = ({ onOpenWaitlist }) => {
             
             <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-charcoal mb-6 leading-tight drop-shadow-sm">
               Glow in Your<br />
-              <span className="italic gold-text">True Aura.</span>
+              <span className="italic aura-text">True Aura.</span>
             </h1>
             
             <p className="font-body text-lg md:text-xl text-charcoal/80 max-w-2xl mx-auto mb-10 leading-relaxed">
