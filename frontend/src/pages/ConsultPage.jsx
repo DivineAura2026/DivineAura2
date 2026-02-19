@@ -157,17 +157,17 @@ const ConsultPage = () => {
                       />
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                    <div className="flex flex-col sm:flex-row gap-3 pt-4 relative z-20">
                       <button
                         type="submit"
-                        className="btn-primary flex-1"
+                        className="btn-primary flex-1 relative z-30"
                         data-testid="consult-submit"
                       >
                         Pay ₹199
                       </button>
                       <button
                         type="button"
-                        className="btn-secondary flex-1"
+                        className="btn-secondary flex-1 relative z-30"
                       >
                         Schedule Appointment
                       </button>
