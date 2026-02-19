@@ -305,9 +305,9 @@
   background-clip: text;
 }
 
-/* Aura spectrum gradient text (red, orange, yellow, green, blue, purple) */
+/* Aura spectrum gradient text (red, orange, yellow, green, blue, purple) - darker/vibrant */
 .aura-text {
-  background: linear-gradient(90deg, #F87171 0%, #FB923C 20%, #FDE047 40%, #6EE7B7 60%, #818CF8 80%, #D8B4FE 100%);
+  background: linear-gradient(90deg, #DC2626 0%, #EA580C 20%, #CA8A04 40%, #16A34A 60%, #2563EB 80%, #9333EA 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
