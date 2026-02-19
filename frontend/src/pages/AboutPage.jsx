@@ -121,7 +121,7 @@ const AboutPage = () => {
               What Guides Us
             </p>
             <h2 className="font-display text-3xl md:text-4xl text-charcoal">
-              Our Core <span className="italic">Values</span>
+              Our Core <span className="italic aura-text">Values</span>
             </h2>
           </div>
 
