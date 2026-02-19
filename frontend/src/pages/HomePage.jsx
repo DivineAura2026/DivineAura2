@@ -50,117 +50,88 @@ const HomePage = ({ onOpenWaitlist }) => {
 
   return (
     <main className="overflow-hidden" data-testid="home-page">
-      {/* ===== HERO SECTION ===== */}
+      {/* ===== HERO SECTION - CINEMATIC ===== */}
       <section 
-        className="relative min-h-screen flex items-center section-padding pt-32"
+        className="relative min-h-screen flex items-center justify-center"
         data-testid="hero-section"
       >
+        {/* Full-width Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src="https://images.pexels.com/photos/3785806/pexels-photo-3785806.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            alt="Divine Aura Beauty"
+            className="w-full h-full object-cover"
+          />
+          {/* Gradient Overlay for readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-charcoal/40 via-charcoal/30 to-charcoal/60" />
+          
+          {/* Aura glow backdrop effect */}
+          <div 
+            className="absolute inset-0 opacity-30 mix-blend-overlay"
+            style={{
+              background: 'radial-gradient(ellipse at 50% 50%, rgba(216, 180, 254, 0.4) 0%, rgba(129, 140, 248, 0.3) 25%, rgba(110, 231, 183, 0.2) 50%, transparent 70%)',
+            }}
+          />
+          <div 
+            className="absolute top-1/4 left-1/4 w-96 h-96 opacity-20 blur-3xl animate-aura-pulse"
+            style={{
+              background: 'radial-gradient(circle, rgba(253, 224, 71, 0.5) 0%, transparent 70%)',
+            }}
+          />
+          <div 
+            className="absolute bottom-1/4 right-1/4 w-80 h-80 opacity-20 blur-3xl animate-aura-pulse"
+            style={{
+              background: 'radial-gradient(circle, rgba(216, 180, 254, 0.5) 0%, transparent 70%)',
+              animationDelay: '2s',
+            }}
+          />
+        </div>
+
         {/* Floating Sparkles */}
-        <SparkleEffect count={25} className="z-10" />
+        <SparkleEffect count={30} className="z-10" />
 
-        {/* Parallax Background Elements */}
-        <AuraBlob 
-          color="purple" 
-          size="xl" 
-          className="top-10 -right-40 opacity-25" 
-          style={{ transform: `translateY(${scrollY * 0.1}px)` }}
-        />
-        <AuraBlob 
-          color="green" 
-          size="lg" 
-          className="bottom-20 -left-20 opacity-20 animate-float-reverse" 
-          style={{ transform: `translateY(${scrollY * -0.05}px)` }}
-        />
-        <AuraBlob 
-          color="blue" 
-          size="md" 
-          className="top-40 left-1/4 opacity-15 animate-float-slow" 
-        />
-        
-        <BotanicalSVG 
-          variant="leaf" 
-          className="absolute right-10 top-40 w-40 h-60 text-charcoal opacity-[0.04]" 
-        />
-        <BotanicalSVG 
-          variant="branch" 
-          className="absolute left-10 bottom-40 w-60 h-40 text-charcoal opacity-[0.04]" 
-        />
-
-        <div className="container-custom w-full relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-            {/* Left - Aura Circle with Text Inside */}
-            <div className="relative flex-shrink-0">
-              {/* Outer glow */}
-              <div 
-                className="absolute inset-0 rounded-full opacity-40 blur-3xl scale-125 animate-aura-pulse"
-                style={{
-                  background: 'conic-gradient(from 180deg at 50% 50%, #D8B4FE 0deg, #818CF8 72deg, #6EE7B7 144deg, #FDE047 216deg, #FB923C 288deg, #F87171 360deg)',
-                }}
-              />
-              
-              {/* Main circle with text */}
-              <div 
-                className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[360px] lg:h-[360px] rounded-full flex items-center justify-center animate-float"
-                style={{
-                  background: 'conic-gradient(from 180deg at 50% 50%, rgba(216, 180, 254, 0.5) 0deg, rgba(129, 140, 248, 0.5) 72deg, rgba(110, 231, 183, 0.5) 144deg, rgba(253, 224, 71, 0.5) 216deg, rgba(251, 146, 60, 0.5) 288deg, rgba(248, 113, 113, 0.5) 360deg)',
-                  padding: '3px',
-                }}
+        {/* Content */}
+        <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
+          <div className="stagger-children">
+            <p className="font-body text-sm tracking-[0.3em] uppercase text-white/80 mb-6 flex items-center justify-center gap-3">
+              <span className="w-12 h-px bg-gradient-to-r from-transparent via-gold to-transparent"></span>
+              Aura-Led Clean Beauty
+              <span className="w-12 h-px bg-gradient-to-r from-transparent via-gold to-transparent"></span>
+            </p>
+            
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white mb-6 leading-tight">
+              Glow in Your<br />
+              <span className="italic gold-text">True Aura.</span>
+            </h1>
+            
+            <p className="font-body text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
+              Aura-led clean beauty for skin, hair & mineral makeup.<br className="hidden sm:block" />
+              Formulated with intention, crafted for radiance.
+            </p>
+            
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button
+                onClick={onOpenWaitlist}
+                className="bg-white text-charcoal rounded-full px-8 py-4 font-body text-sm tracking-wider uppercase hover:bg-gold hover:text-charcoal transition-all duration-300 hover:shadow-lg hover:shadow-gold/30 shimmer-effect"
+                data-testid="hero-join-waitlist-btn"
               >
-                <div className="w-full h-full rounded-full bg-warm-bg/95 backdrop-blur-sm flex items-center justify-center p-8 shadow-inner">
-                  <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl text-charcoal text-center leading-tight">
-                    Glow in Your<br />
-                    <span className="italic gold-text">True Aura.</span>
-                  </h1>
-                </div>
-              </div>
-              
-              {/* Sparkle accents around circle */}
-              <div className="absolute -top-2 right-8 w-3 h-3 rounded-full bg-gold animate-sparkle" style={{ animationDelay: '0s' }} />
-              <div className="absolute top-1/4 -right-2 w-2 h-2 rounded-full bg-gold-light animate-sparkle" style={{ animationDelay: '1s' }} />
-              <div className="absolute bottom-8 -left-2 w-2.5 h-2.5 rounded-full bg-gold animate-sparkle" style={{ animationDelay: '2s' }} />
+                Join Waitlist
+              </button>
+              <a
+                href="#brand-story"
+                className="border border-white/40 text-white rounded-full px-8 py-4 font-body text-sm tracking-wider uppercase hover:bg-white/10 hover:border-white transition-all duration-300"
+                data-testid="hero-learn-more-btn"
+              >
+                Learn Why We're Different
+              </a>
             </div>
+          </div>
+        </div>
 
-            {/* Center - Premium Product Image */}
-            <div className="hidden xl:block relative">
-              <div className="relative w-[200px] h-[280px] rounded-2xl overflow-hidden shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
-                <img
-                  src="https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600"
-                  alt="Divine Aura Premium Skincare"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/30 to-transparent" />
-              </div>
-              {/* Gold accent line */}
-              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-16 h-0.5 bg-gradient-to-r from-transparent via-gold to-transparent" />
-            </div>
-
-            {/* Right Content */}
-            <div className="stagger-children text-center lg:text-left max-w-lg">
-              <p className="font-body text-sm tracking-[0.2em] uppercase text-text-secondary mb-4 flex items-center gap-2 justify-center lg:justify-start">
-                <span className="w-8 h-px bg-gold"></span>
-                Aura-Led Clean Beauty
-              </p>
-              <p className="font-body text-lg md:text-xl text-text-secondary mb-8 leading-relaxed">
-                Aura-led clean beauty for skin, hair & mineral makeup. Formulated with intention, crafted for <span className="gold-text font-medium">radiance</span>.
-              </p>
-              
-              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                <button
-                  onClick={onOpenWaitlist}
-                  className="btn-primary shimmer-effect"
-                  data-testid="hero-join-waitlist-btn"
-                >
-                  Join Waitlist
-                </button>
-                <a
-                  href="#brand-story"
-                  className="btn-secondary glow-hover"
-                  data-testid="hero-learn-more-btn"
-                >
-                  Learn Why We're Different
-                </a>
-              </div>
-            </div>
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+          <div className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center pt-2">
+            <div className="w-1 h-2 bg-white/60 rounded-full animate-pulse" />
           </div>
         </div>
       </section>
