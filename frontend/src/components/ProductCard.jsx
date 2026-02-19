@@ -24,7 +24,7 @@ export const ProductCard = ({ product, compact = false }) => {
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         {/* Aura Tag */}
-        <div className="absolute top-3 left-3">
+        <div className="absolute top-3 left-3 z-10">
           <span className="px-2 py-1 bg-white/90 backdrop-blur-sm rounded-full text-[10px] font-body tracking-wider uppercase text-text-secondary">
             {product.auraTag}
           </span>
@@ -32,7 +32,7 @@ export const ProductCard = ({ product, compact = false }) => {
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col flex-1">
+      <div className="p-4 flex flex-col flex-1 relative z-20">
         <h3 className={`font-display text-charcoal mb-1 leading-tight ${compact ? 'text-sm' : 'text-base'}`}>
           {compact ? product.shortName : product.name}
         </h3>
@@ -46,8 +46,9 @@ export const ProductCard = ({ product, compact = false }) => {
           </span>
           <button
             onClick={handleAddToCart}
-            className="flex items-center gap-1 px-3 py-2 bg-charcoal text-white rounded-full text-xs font-body tracking-wider uppercase hover:bg-charcoal/90 transition-colors"
+            className="relative z-30 flex items-center gap-1 px-3 py-2 bg-charcoal text-white rounded-full text-xs font-body tracking-wider uppercase hover:bg-charcoal/90 transition-colors cursor-pointer"
             data-testid={`add-to-cart-${product.id}`}
+            type="button"
           >
             <Plus size={14} />
             <span className="hidden sm:inline">Add</span>
