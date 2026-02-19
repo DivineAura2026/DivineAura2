@@ -1,34 +1,190 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* Divine Aura - Premium Styles */
+
+/* Remove default center alignment */
+.App {
+  min-height: 100vh;
+  background-color: #FDFBF7;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+/* Premium typography utilities */
+.font-display {
+  font-family: 'Playfair Display', serif;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.font-body {
+  font-family: 'Manrope', sans-serif;
 }
 
-.App-link {
-    color: #61dafb;
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Button hover states */
+.btn-primary {
+  background-color: #2D2D2D;
+  color: white;
+  border-radius: 9999px;
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #1A1A1A;
+  border: 1px solid rgba(26, 26, 26, 0.2);
+  border-radius: 9999px;
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  border-color: #1A1A1A;
+  transform: translateY(-2px);
+}
+
+/* Input styles */
+.input-minimal {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.2);
+  padding: 1rem 0;
+  font-size: 1rem;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.3s ease;
+  font-family: 'Manrope', sans-serif;
+}
+
+.input-minimal:focus {
+  border-bottom-color: #1A1A1A;
+}
+
+.input-minimal::placeholder {
+  color: rgba(26, 26, 26, 0.4);
+}
+
+/* Card glassmorphism */
+.card-glass {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+  border-radius: 1rem;
+  transition: background-color 0.5s ease, transform 0.3s ease;
+}
+
+.card-glass:hover {
+  background: rgba(255, 255, 255, 0.6);
+  transform: translateY(-4px);
+}
+
+/* Section spacing */
+.section-padding {
+  padding: 5rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding: 7rem 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding: 8rem 6rem;
+  }
+}
+
+/* Container */
+.container-custom {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* Link underline effect */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* Aura ring glow */
+.aura-glow {
+  position: relative;
+}
+
+.aura-glow::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: conic-gradient(from 180deg at 50% 50%, 
+    rgba(216, 180, 254, 0.3) 0deg, 
+    rgba(129, 140, 248, 0.3) 72deg, 
+    rgba(110, 231, 183, 0.3) 144deg, 
+    rgba(253, 224, 71, 0.3) 216deg, 
+    rgba(251, 146, 60, 0.3) 288deg, 
+    rgba(248, 113, 113, 0.3) 360deg
+  );
+  filter: blur(60px);
+  border-radius: 50%;
+  z-index: -1;
+  animation: aura-pulse 10s ease-in-out infinite;
+}
+
+/* Trust badge */
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  color: #5C5C5C;
+  white-space: nowrap;
+}
+
+/* Botanical background */
+.botanical-bg {
+  position: absolute;
+  opacity: 0.03;
+  pointer-events: none;
 }
