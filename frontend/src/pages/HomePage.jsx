@@ -160,7 +160,7 @@ const HomePage = ({ onOpenWaitlist }) => {
             <div className="space-y-12">
               <div>
                 <h2 className="font-display text-3xl md:text-4xl text-charcoal mb-6">
-                  What is <span className="gold-text">Divine Aura</span>?
+                  What is <span className="aura-text">Divine Aura</span>?
                 </h2>
                 <p className="font-body text-text-secondary leading-relaxed mb-4">
                   Divine Aura is an aura-led clean beauty brand crafted for modern skin and real concerns.
@@ -259,7 +259,7 @@ const HomePage = ({ onOpenWaitlist }) => {
               <span className="w-8 h-px bg-gold"></span>
             </p>
             <h2 className="font-display text-3xl md:text-4xl text-charcoal">
-              Rituals for Every <span className="italic gold-text">Radiance</span>
+              Rituals for Every <span className="italic aura-text">Radiance</span>
             </h2>
           </div>
 
@@ -301,7 +301,7 @@ const HomePage = ({ onOpenWaitlist }) => {
             </div>
             
             <h2 className="font-display text-3xl md:text-4xl text-charcoal mb-6">
-              Aura Discovery is <span className="italic gold-text">coming.</span>
+              Aura Discovery is <span className="italic aura-text">coming.</span>
             </h2>
             <p className="font-body text-lg text-text-secondary mb-10">
               Soon you'll answer a few questions and get ritual recommendations for your skin & hair, aligned with your unique aura.
@@ -397,7 +397,7 @@ const HomePage = ({ onOpenWaitlist }) => {
                   <Check size={32} className="text-gold" />
                 </div>
                 <h3 className="font-display text-2xl text-white mb-3">
-                  Welcome to <span className="gold-text">Divine Aura</span>
+                  Welcome to <span className="aura-text">Divine Aura</span>
                 </h3>
                 <p className="font-body text-white/70">
                   You're on the list! We'll notify you when we launch.
