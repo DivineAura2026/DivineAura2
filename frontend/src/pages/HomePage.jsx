@@ -1,44 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Droplets, Leaf, Palette, ArrowRight, Check } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Sparkles, Droplets, Leaf, Palette, ArrowRight } from 'lucide-react';
 import { AuraBlob, BotanicalSVG } from '../components/AuraBlob';
-import { CategoryCard } from '../components/CategoryCard';
+import { ProductCard } from '../components/ProductCard';
 import { TrustStrip } from '../components/TrustBadge';
 import { Sparkles as SparkleEffect, AuraDivider } from '../components/LuxuryElements';
+import { featuredProducts } from '../data/products';
 
-const HomePage = ({ onOpenWaitlist }) => {
-  const [inlineForm, setInlineForm] = useState({ name: '', email: '', whatsapp: '' });
-  const [inlineSubmitted, setInlineSubmitted] = useState(false);
+const HomePage = () => {
   const [scrollY, setScrollY] = useState(0);
 
-  // Parallax scroll effect
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleInlineSubmit = (e) => {
-    e.preventDefault();
-    console.log('Inline Waitlist Form:', inlineForm);
-    setInlineSubmitted(true);
-  };
-
-  const categories = [
-    {
-      title: 'Skincare Rituals',
-      description: 'Curated formulations designed to restore your skin\'s natural radiance and balance.',
-      image: 'https://images.pexels.com/photos/3785147/pexels-photo-3785147.jpeg?auto=compress&cs=tinysrgb&w=800',
-    },
-    {
-      title: 'Haircare Elixirs',
-      description: 'Nourishing elixirs crafted to strengthen, shine, and revitalize from root to tip.',
-      image: 'https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=800',
-    },
-    {
-      title: 'Mineral Makeup',
-      description: 'Clean mineral makeup that enhances your natural beauty without compromise.',
-      image: 'https://images.pexels.com/photos/2587370/pexels-photo-2587370.jpeg?auto=compress&cs=tinysrgb&w=800',
-    },
+  const trustIndicators = [
+    'Small-batch crafted',
+    'Clean formulations',
+    'Dermat-inspired',
+    'Personalized by aura',
   ];
 
   const differentiators = [
@@ -50,23 +32,22 @@ const HomePage = ({ onOpenWaitlist }) => {
 
   return (
     <main className="overflow-hidden" data-testid="home-page">
-      {/* ===== HERO SECTION - CINEMATIC ===== */}
+      {/* ===== HERO SECTION ===== */}
       <section 
         className="relative min-h-screen flex items-center justify-center"
         data-testid="hero-section"
       >
-        {/* Full-width Background Image - Soft Nature */}
+        {/* Background Image */}
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1645586222783-d1062e1d3db6?auto=format&fit=crop&w=1920&q=80"
             alt="Divine Aura Beauty"
             className="w-full h-full object-cover"
           />
-          {/* Soft light gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-warm-bg/20 to-warm-bg/60" />
           <div className="absolute inset-0 bg-gradient-to-r from-warm-bg/40 via-transparent to-warm-bg/40" />
           
-          {/* Aura glow backdrop effect - softer, brighter */}
+          {/* Aura glow effects */}
           <div 
             className="absolute inset-0 opacity-40 mix-blend-soft-light"
             style={{
@@ -79,16 +60,8 @@ const HomePage = ({ onOpenWaitlist }) => {
               background: 'radial-gradient(circle, rgba(253, 224, 71, 0.4) 0%, rgba(251, 146, 60, 0.2) 50%, transparent 70%)',
             }}
           />
-          <div 
-            className="absolute bottom-1/3 right-1/3 w-96 h-96 opacity-25 blur-3xl animate-aura-pulse"
-            style={{
-              background: 'radial-gradient(circle, rgba(216, 180, 254, 0.5) 0%, rgba(129, 140, 248, 0.3) 50%, transparent 70%)',
-              animationDelay: '3s',
-            }}
-          />
         </div>
 
-        {/* Floating Sparkles */}
         <SparkleEffect count={25} className="z-10" />
 
         {/* Content */}
@@ -105,26 +78,38 @@ const HomePage = ({ onOpenWaitlist }) => {
               <span className="italic aura-text">True Aura.</span>
             </h1>
             
-            <p className="font-body text-lg md:text-xl text-charcoal/80 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Aura-led clean beauty for skin, hair & mineral makeup.<br className="hidden sm:block" />
-              Formulated with intention, crafted for radiance.
+            <p className="font-body text-lg md:text-xl text-charcoal/80 max-w-2xl mx-auto mb-4 leading-relaxed">
+              Aura-led clean beauty for skin, hair & makeup.<br className="hidden sm:block" />
+              Self-manufactured. Thoughtfully formulated.
             </p>
+
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap justify-center gap-3 mb-10">
+              {trustIndicators.map((item, idx) => (
+                <span 
+                  key={idx}
+                  className="px-3 py-1 bg-white/60 backdrop-blur-sm rounded-full font-body text-xs text-charcoal/70"
+                >
+                  • {item}
+                </span>
+              ))}
+            </div>
             
             <div className="flex flex-wrap gap-4 justify-center">
-              <button
-                onClick={onOpenWaitlist}
+              <Link
+                to="/shop"
                 className="bg-charcoal text-white rounded-full px-8 py-4 font-body text-sm tracking-wider uppercase hover:bg-charcoal/90 transition-all duration-300 hover:shadow-xl shimmer-effect"
-                data-testid="hero-join-waitlist-btn"
+                data-testid="hero-shop-btn"
               >
-                Join Waitlist
-              </button>
-              <a
-                href="#brand-story"
+                Shop The Ritual
+              </Link>
+              <Link
+                to="/aura-analysis"
                 className="border border-charcoal/30 text-charcoal rounded-full px-8 py-4 font-body text-sm tracking-wider uppercase hover:bg-charcoal/5 hover:border-charcoal/50 transition-all duration-300 backdrop-blur-sm"
-                data-testid="hero-learn-more-btn"
+                data-testid="hero-aura-btn"
               >
-                Learn Why We're Different
-              </a>
+                Discover Your Aura
+              </Link>
             </div>
           </div>
         </div>
@@ -137,7 +122,48 @@ const HomePage = ({ onOpenWaitlist }) => {
         </div>
       </section>
 
-      {/* Aura Divider */}
+      <AuraDivider />
+
+      {/* ===== FEATURED PRODUCTS SECTION ===== */}
+      <section 
+        className="section-padding"
+        data-testid="featured-section"
+      >
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <p className="font-body text-sm tracking-[0.2em] uppercase text-text-muted mb-4 flex items-center justify-center gap-3">
+              <span className="w-8 h-px bg-gold"></span>
+              Curated For You
+              <span className="w-8 h-px bg-gold"></span>
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl text-charcoal mb-3">
+              Featured <span className="italic aura-text">Aura Rituals</span>
+            </h2>
+            <p className="font-body text-text-secondary max-w-lg mx-auto">
+              Curated essentials aligned to your skin & hair energy.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            {featuredProducts.slice(0, 7).map(product => (
+              <Link key={product.id} to={`/shop/${product.id}`}>
+                <ProductCard product={product} compact />
+              </Link>
+            ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <Link
+              to="/shop"
+              className="btn-secondary inline-flex items-center gap-2 group"
+            >
+              View All Products
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <AuraDivider />
 
       {/* ===== BRAND STORY SECTION ===== */}
@@ -146,7 +172,6 @@ const HomePage = ({ onOpenWaitlist }) => {
         className="section-padding bg-warm-surface/30 relative"
         data-testid="brand-story-section"
       >
-        {/* Parallax blob */}
         <AuraBlob 
           color="yellow" 
           size="lg" 
@@ -181,18 +206,6 @@ const HomePage = ({ onOpenWaitlist }) => {
                 </p>
                 <p className="font-body text-text-secondary leading-relaxed">
                   We combine clean ingredient philosophy with intentional product architecture — so every formula has a purpose.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="font-display text-3xl md:text-4xl text-charcoal mb-6">
-                  What do we offer?
-                </h2>
-                <p className="font-body text-lg text-charcoal font-medium mb-2">
-                  Skincare. Haircare. Mineral Makeup.
-                </p>
-                <p className="font-body text-text-secondary leading-relaxed">
-                  Each designed to restore your natural radiance.
                 </p>
               </div>
 
@@ -235,50 +248,9 @@ const HomePage = ({ onOpenWaitlist }) => {
         </div>
       </section>
 
-      {/* Aura Divider */}
-      <AuraDivider />
-
-      {/* ===== CATEGORY CARDS SECTION ===== */}
-      <section 
-        className="section-padding relative"
-        data-testid="categories-section"
-      >
-        {/* Parallax blob */}
-        <AuraBlob 
-          color="purple" 
-          size="xl" 
-          className="absolute -left-60 top-1/2 opacity-10"
-          style={{ transform: `translateY(${(scrollY - 1200) * 0.06}px)` }}
-        />
-
-        <div className="container-custom relative z-10">
-          <div className="text-center mb-16">
-            <p className="font-body text-sm tracking-[0.2em] uppercase text-text-muted mb-4 flex items-center justify-center gap-3">
-              <span className="w-8 h-px bg-gold"></span>
-              Explore Our Collections
-              <span className="w-8 h-px bg-gold"></span>
-            </p>
-            <h2 className="font-display text-3xl md:text-4xl text-charcoal">
-              Rituals for Every <span className="italic aura-text">Radiance</span>
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categories.map((category, index) => (
-              <CategoryCard
-                key={index}
-                {...category}
-                onCTA={onOpenWaitlist}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ===== TRUST STRIP ===== */}
       <TrustStrip />
 
-      {/* Aura Divider */}
       <AuraDivider />
 
       {/* ===== AURA DISCOVERY SECTION ===== */}
@@ -297,113 +269,63 @@ const HomePage = ({ onOpenWaitlist }) => {
           <div className="max-w-2xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-gold/10 rounded-full mb-6 border border-gold/20">
               <Sparkles size={16} className="text-gold" />
-              <span className="font-body text-sm text-charcoal">Coming Soon</span>
+              <span className="font-body text-sm text-charcoal">Personalized Experience</span>
             </div>
             
             <h2 className="font-display text-3xl md:text-4xl text-charcoal mb-6">
-              Aura Discovery is <span className="italic aura-text">coming.</span>
+              Discover Your <span className="italic aura-text">Aura</span>
             </h2>
             <p className="font-body text-lg text-text-secondary mb-10">
-              Soon you'll answer a few questions and get ritual recommendations for your skin & hair, aligned with your unique aura.
+              Answer a few questions and get personalized ritual recommendations for your skin & hair, aligned with your unique energy.
             </p>
             
-            <button
-              onClick={onOpenWaitlist}
-              className="btn-secondary glow-hover group"
+            <Link
+              to="/aura-analysis"
+              className="btn-primary inline-flex items-center gap-2 group"
               data-testid="discover-aura-btn"
             >
-              <span>Discover Your Aura</span>
+              <span>Start Aura Analysis</span>
               <ArrowRight 
                 size={18} 
-                className="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1" 
+                className="transition-transform duration-300 group-hover:translate-x-1" 
               />
-            </button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ===== WAITLIST CAPTURE SECTION ===== */}
+      {/* ===== CONSULT CTA SECTION ===== */}
       <section 
         className="section-padding bg-charcoal text-white relative overflow-hidden"
-        data-testid="waitlist-section"
+        data-testid="consult-section"
       >
-        {/* Aura gradient top border */}
         <div 
           className="absolute top-0 left-0 w-full h-1"
           style={{
-            background: 'linear-gradient(90deg, #D4AF37 0%, #D8B4FE 20%, #818CF8 40%, #6EE7B7 60%, #FDE047 80%, #D4AF37 100%)',
+            background: 'linear-gradient(90deg, #DC2626 0%, #EA580C 17%, #CA8A04 33%, #16A34A 50%, #2563EB 67%, #9333EA 83%, #DC2626 100%)',
           }}
         />
         
-        {/* Sparkles in dark section */}
         <SparkleEffect count={20} />
         
         <div className="container-custom relative z-10">
-          <div className="max-w-xl mx-auto">
-            {!inlineSubmitted ? (
-              <>
-                <div className="text-center mb-10">
-                  <p className="font-body text-sm tracking-[0.2em] uppercase text-gold mb-4">
-                    Exclusive Access
-                  </p>
-                  <h2 className="font-display text-3xl md:text-4xl text-white mb-4">
-                    Get early access to launches + rituals
-                  </h2>
-                  <p className="font-body text-white/70">
-                    Be the first to experience Divine Aura.
-                  </p>
-                </div>
-
-                <form onSubmit={handleInlineSubmit} className="space-y-6">
-                  <input
-                    type="text"
-                    placeholder="Your Name"
-                    value={inlineForm.name}
-                    onChange={(e) => setInlineForm({ ...inlineForm, name: e.target.value })}
-                    className="w-full bg-transparent border-b border-gold/30 py-4 text-white placeholder:text-white/40 focus:border-gold outline-none transition-colors"
-                    required
-                    data-testid="inline-name-input"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    value={inlineForm.email}
-                    onChange={(e) => setInlineForm({ ...inlineForm, email: e.target.value })}
-                    className="w-full bg-transparent border-b border-gold/30 py-4 text-white placeholder:text-white/40 focus:border-gold outline-none transition-colors"
-                    required
-                    data-testid="inline-email-input"
-                  />
-                  <input
-                    type="tel"
-                    placeholder="WhatsApp Number (optional)"
-                    value={inlineForm.whatsapp}
-                    onChange={(e) => setInlineForm({ ...inlineForm, whatsapp: e.target.value })}
-                    className="w-full bg-transparent border-b border-gold/30 py-4 text-white placeholder:text-white/40 focus:border-gold outline-none transition-colors"
-                    data-testid="inline-whatsapp-input"
-                  />
-                  
-                  <button
-                    type="submit"
-                    className="w-full py-4 bg-gradient-to-r from-gold to-gold-light text-charcoal rounded-full font-body text-sm tracking-wider uppercase hover:shadow-lg hover:shadow-gold/20 transition-all duration-300 shimmer-effect"
-                    data-testid="inline-submit-btn"
-                  >
-                    Join Divine Aura
-                  </button>
-                </form>
-              </>
-            ) : (
-              <div className="text-center py-8" data-testid="inline-success">
-                <div className="w-16 h-16 rounded-full bg-gold/20 flex items-center justify-center mx-auto mb-6 border border-gold/30">
-                  <Check size={32} className="text-gold" />
-                </div>
-                <h3 className="font-display text-2xl text-white mb-3">
-                  Welcome to <span className="aura-text">Divine Aura</span>
-                </h3>
-                <p className="font-body text-white/70">
-                  You're on the list! We'll notify you when we launch.
-                </p>
-              </div>
-            )}
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="font-body text-sm tracking-[0.2em] uppercase text-gold mb-4">
+              Expert Guidance
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl text-white mb-4">
+              Dermatologist Consultation
+            </h2>
+            <p className="font-body text-white/70 mb-8">
+              Get personalized skincare advice from our experts for just ₹199.
+            </p>
+            
+            <Link
+              to="/consult"
+              className="inline-block py-4 px-8 bg-gradient-to-r from-gold to-gold-light text-charcoal rounded-full font-body text-sm tracking-wider uppercase hover:shadow-lg hover:shadow-gold/20 transition-all duration-300 shimmer-effect"
+            >
+              Book Consultation – ₹199
+            </Link>
           </div>
         </div>
       </section>
