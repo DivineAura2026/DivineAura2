@@ -20,7 +20,7 @@ export const Footer = () => {
                 <div 
                   className="absolute inset-0 rounded-full"
                   style={{
-                    background: 'conic-gradient(from 180deg at 50% 50%, #D8B4FE 0deg, #818CF8 72deg, #6EE7B7 144deg, #FDE047 216deg, #FB923C 288deg, #F87171 360deg)',
+                    background: 'conic-gradient(from 180deg at 50% 50%, #DC2626 0deg, #EA580C 60deg, #CA8A04 120deg, #16A34A 180deg, #2563EB 240deg, #9333EA 300deg, #DC2626 360deg)',
                     padding: '2px',
                   }}
                 >
@@ -36,26 +36,49 @@ export const Footer = () => {
             </p>
           </div>
 
-          {/* Navigation */}
+          {/* Shop */}
           <div>
             <h4 className="font-body text-sm tracking-widest uppercase text-white/60 mb-6">
-              Navigate
+              Shop
             </h4>
             <ul className="space-y-4">
               <li>
                 <Link 
-                  to="/" 
+                  to="/shop" 
                   className="font-body text-white/80 hover:text-white transition-colors duration-300"
-                  data-testid="footer-link-home"
                 >
-                  Home
+                  All Products
                 </Link>
               </li>
               <li>
                 <Link 
+                  to="/aura-analysis" 
+                  className="font-body text-white/80 hover:text-white transition-colors duration-300"
+                >
+                  Aura Analysis
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/consult" 
+                  className="font-body text-white/80 hover:text-white transition-colors duration-300"
+                >
+                  Consultation
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div>
+            <h4 className="font-body text-sm tracking-widest uppercase text-white/60 mb-6">
+              Company
+            </h4>
+            <ul className="space-y-4">
+              <li>
+                <Link 
                   to="/about" 
                   className="font-body text-white/80 hover:text-white transition-colors duration-300"
-                  data-testid="footer-link-about"
                 >
                   About
                 </Link>
@@ -64,7 +87,6 @@ export const Footer = () => {
                 <Link 
                   to="/contact" 
                   className="font-body text-white/80 hover:text-white transition-colors duration-300"
-                  data-testid="footer-link-contact"
                 >
                   Contact
                 </Link>
@@ -73,56 +95,51 @@ export const Footer = () => {
                 <Link 
                   to="/#" 
                   className="font-body text-white/80 hover:text-white transition-colors duration-300"
-                  data-testid="footer-link-privacy"
                 >
                   Privacy Policy
                 </Link>
               </li>
+              <li>
+                <Link 
+                  to="/#" 
+                  className="font-body text-white/80 hover:text-white transition-colors duration-300"
+                >
+                  Terms of Service
+                </Link>
+              </li>
             </ul>
-          </div>
-
-          {/* Social */}
-          <div>
-            <h4 className="font-body text-sm tracking-widest uppercase text-white/60 mb-6">
-              Connect
-            </h4>
-            <div className="flex gap-4">
-              <a 
-                href="#" 
-                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white/60 transition-colors duration-300"
-                data-testid="social-instagram"
-                aria-label="Instagram"
-              >
-                <Instagram size={18} className="text-white/80" />
-              </a>
-              <a 
-                href="#" 
-                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white/60 transition-colors duration-300"
-                data-testid="social-facebook"
-                aria-label="Facebook"
-              >
-                <Facebook size={18} className="text-white/80" />
-              </a>
-              <a 
-                href="#" 
-                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white/60 transition-colors duration-300"
-                data-testid="social-twitter"
-                aria-label="Twitter"
-              >
-                <Twitter size={18} className="text-white/80" />
-              </a>
-            </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+        {/* Social & Bottom */}
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="font-body text-sm text-white/50">
             © {currentYear} Divine Aura. All rights reserved.
           </p>
-          <p className="font-body text-xs text-white/40">
-            Aura-led clean beauty for conscious souls.
-          </p>
+          
+          <div className="flex gap-4">
+            <a 
+              href="#" 
+              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white/60 transition-colors duration-300"
+              aria-label="Instagram"
+            >
+              <Instagram size={18} className="text-white/80" />
+            </a>
+            <a 
+              href="#" 
+              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white/60 transition-colors duration-300"
+              aria-label="Facebook"
+            >
+              <Facebook size={18} className="text-white/80" />
+            </a>
+            <a 
+              href="#" 
+              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white/60 transition-colors duration-300"
+              aria-label="Twitter"
+            >
+              <Twitter size={18} className="text-white/80" />
+            </a>
+          </div>
         </div>
       </div>
     </footer>

@@ -16,13 +16,13 @@ const AboutPage = () => {
     },
     {
       icon: Heart,
-      title: 'Crafted with Care',
-      description: 'Small-batch production ensures quality and attention to detail in every product we create.',
+      title: 'Self-Manufactured',
+      description: 'Small-batch production in our own facility ensures quality and attention to detail in every product.',
     },
     {
       icon: Target,
-      title: 'Transparent Purpose',
-      description: 'We believe in honesty. Know exactly what goes into your products and why it matters.',
+      title: 'Personalization First',
+      description: 'From Aura Analysis to dermat consultations, we help you find what truly works for your skin.',
     },
   ];
 
@@ -50,8 +50,8 @@ const AboutPage = () => {
               with your soul.
             </h1>
             <p className="font-body text-lg text-text-secondary max-w-2xl">
-              Divine Aura was born from a simple belief: beauty should be more than surface-deep. 
-              It should align with who you truly are.
+              Divine Aura is an aura-led clean beauty brand, self-manufactured in small batches 
+              with a focus on personalization and intentional formulation.
             </p>
           </div>
         </div>
@@ -70,11 +70,10 @@ const AboutPage = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              {/* Decorative elements */}
               <div 
                 className="absolute -bottom-6 -right-6 w-32 h-32 rounded-full opacity-60"
                 style={{
-                  background: 'conic-gradient(from 180deg at 50% 50%, #D8B4FE 0deg, #818CF8 72deg, #6EE7B7 144deg, #FDE047 216deg, #FB923C 288deg, #F87171 360deg)',
+                  background: 'conic-gradient(from 180deg at 50% 50%, #DC2626 0deg, #EA580C 60deg, #CA8A04 120deg, #16A34A 180deg, #2563EB 240deg, #9333EA 300deg, #DC2626 360deg)',
                   filter: 'blur(40px)',
                 }}
               />
@@ -94,7 +93,7 @@ const AboutPage = () => {
                 <p className="font-body text-text-secondary leading-relaxed">
                   Divine Aura emerged from this question — a clean beauty brand that doesn't just 
                   formulate products, but designs rituals. Each creation is a careful balance of 
-                  science and intention, crafted to enhance your natural radiance.
+                  science and intention, self-manufactured in small batches to ensure quality.
                 </p>
               </div>
 
@@ -129,7 +128,7 @@ const AboutPage = () => {
             {values.map((value, index) => (
               <div 
                 key={index}
-                className="p-8 md:p-10 card-glass"
+                className="p-8 md:p-10 luxury-card glow-hover"
                 data-testid={`value-card-${index}`}
               >
                 <div className="w-14 h-14 rounded-full bg-gradient-to-br from-aura-purple/20 to-aura-green/20 flex items-center justify-center mb-6">
