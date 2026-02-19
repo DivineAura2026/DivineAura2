@@ -67,21 +67,52 @@ const HomePage = ({ onOpenWaitlist }) => {
         />
 
         <div className="container-custom w-full">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* Left Content */}
-            <div className="stagger-children">
-              <p className="font-body text-sm tracking-[0.2em] uppercase text-text-secondary mb-6">
+          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+            {/* Left - Aura Circle with Text Inside */}
+            <div className="relative flex-shrink-0">
+              {/* Outer glow */}
+              <div 
+                className="absolute inset-0 rounded-full opacity-30 blur-3xl scale-110"
+                style={{
+                  background: 'conic-gradient(from 180deg at 50% 50%, #D8B4FE 0deg, #818CF8 72deg, #6EE7B7 144deg, #FDE047 216deg, #FB923C 288deg, #F87171 360deg)',
+                }}
+              />
+              
+              {/* Main circle with text */}
+              <div 
+                className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[380px] lg:h-[380px] rounded-full flex items-center justify-center animate-float"
+                style={{
+                  background: 'conic-gradient(from 180deg at 50% 50%, rgba(216, 180, 254, 0.4) 0deg, rgba(129, 140, 248, 0.4) 72deg, rgba(110, 231, 183, 0.4) 144deg, rgba(253, 224, 71, 0.4) 216deg, rgba(251, 146, 60, 0.4) 288deg, rgba(248, 113, 113, 0.4) 360deg)',
+                  padding: '3px',
+                }}
+              >
+                <div className="w-full h-full rounded-full bg-warm-bg flex items-center justify-center p-8">
+                  <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl text-charcoal text-center leading-tight">
+                    Glow in Your<br />
+                    <span className="italic">True Aura.</span>
+                  </h1>
+                </div>
+              </div>
+              
+              {/* Inner glow pulse */}
+              <div 
+                className="absolute inset-8 rounded-full opacity-20 blur-2xl animate-aura-pulse pointer-events-none"
+                style={{
+                  background: 'conic-gradient(from 0deg at 50% 50%, #D8B4FE 0deg, #818CF8 72deg, #6EE7B7 144deg, #FDE047 216deg, #FB923C 288deg, #F87171 360deg)',
+                }}
+              />
+            </div>
+
+            {/* Right Content */}
+            <div className="stagger-children text-center lg:text-left max-w-lg">
+              <p className="font-body text-sm tracking-[0.2em] uppercase text-text-secondary mb-4">
                 Aura-Led Clean Beauty
               </p>
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl text-charcoal mb-6 leading-tight">
-                Glow in Your<br />
-                <span className="italic">True Aura.</span>
-              </h1>
-              <p className="font-body text-lg text-text-secondary max-w-lg mb-10">
+              <p className="font-body text-lg md:text-xl text-text-secondary mb-8 leading-relaxed">
                 Aura-led clean beauty for skin, hair & mineral makeup. Formulated with intention, crafted for radiance.
               </p>
               
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                 <button
                   onClick={onOpenWaitlist}
                   className="btn-primary"
@@ -96,18 +127,6 @@ const HomePage = ({ onOpenWaitlist }) => {
                 >
                   Learn Why We're Different
                 </a>
-              </div>
-            </div>
-
-            {/* Right - Aura Ring Visual */}
-            <div className="relative flex justify-center lg:justify-end">
-              <div className="relative">
-                <AuraRing size={350} className="animate-float" />
-                {/* Nature touch near the rings */}
-                <BotanicalSVG 
-                  variant="leaf" 
-                  className="absolute -bottom-10 -left-10 w-24 h-36 text-charcoal opacity-[0.05]" 
-                />
               </div>
             </div>
           </div>
