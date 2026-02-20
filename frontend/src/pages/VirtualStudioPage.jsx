@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { Upload, RotateCcw, ShoppingBag, Sparkles, Move, ZoomIn, ZoomOut } from 'lucide-react';
+import { Upload, RotateCcw, ShoppingBag, Sparkles, Move, ZoomIn, ZoomOut, Eye, EyeOff } from 'lucide-react';
 import { virtualTryOnShades, intensityLevels, getProductByShade } from '../data/virtualTryOn';
 import { useCart } from '../context/CartContext';
 import { AuraBlob } from '../components/AuraBlob';
@@ -17,6 +17,7 @@ const VirtualStudioPage = () => {
   const [selectedShade, setSelectedShade] = useState(null);
   const [intensity, setIntensity] = useState('medium');
   const [addedToCart, setAddedToCart] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(true); // Before/After toggle
   
   // Overlay positions for each type
   const [lipPosition, setLipPosition] = useState({ x: 50, y: 65 }); // percentage based
