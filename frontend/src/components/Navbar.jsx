@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, Sparkles } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 export const Navbar = () => {
@@ -16,15 +16,22 @@ export const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
+  // Primary navigation - most important links
+  const primaryLinks = [
     { name: 'Home', path: '/' },
     { name: 'Shop', path: '/shop' },
-    { name: 'Aura Virtual Studio', path: '/virtual-studio' },
-    { name: 'Aura Analysis', path: '/aura-analysis' },
+    { name: 'Try On', path: '/virtual-studio', highlight: true },
+  ];
+
+  // Secondary navigation - grouped together
+  const secondaryLinks = [
+    { name: 'Aura Quiz', path: '/aura-analysis' },
     { name: 'Consult', path: '/consult' },
     { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
   ];
+
+  // All links for mobile
+  const allLinks = [...primaryLinks, ...secondaryLinks];
 
   const isActive = (path) => location.pathname === path;
 
@@ -35,7 +42,7 @@ export const Navbar = () => {
         data-testid="navbar"
         className={`
           fixed top-0 left-0 right-0 z-50 
-          px-4 py-3 md:px-8 md:py-4
+          px-4 py-3 md:px-6 lg:px-8 md:py-4
           flex justify-between items-center
           transition-all duration-500
           ${isScrolled 
@@ -68,29 +75,59 @@ export const Navbar = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-4 lg:gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              data-testid={`nav-link-${link.name.toLowerCase().replace(/ /g, '-')}`}
-              className={`
-                font-body text-xs tracking-wider uppercase whitespace-nowrap
-                transition-colors duration-300
-                ${isActive(link.path) 
-                  ? 'text-charcoal font-medium' 
-                  : 'text-text-secondary hover:text-charcoal'
-                }
-              `}
-            >
-              {link.name}
-            </Link>
-          ))}
+        <div className="hidden md:flex items-center">
+          {/* Primary Links */}
+          <div className="flex items-center gap-5 lg:gap-7">
+            {primaryLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                data-testid={`nav-link-${link.name.toLowerCase().replace(/ /g, '-')}`}
+                className={`
+                  font-body text-[11px] lg:text-xs tracking-wider uppercase whitespace-nowrap
+                  transition-all duration-300 flex items-center gap-1.5
+                  ${link.highlight 
+                    ? 'px-3 py-1.5 rounded-full bg-gradient-to-r from-pastel-pink/40 to-pastel-lavender/40 hover:from-pastel-pink/60 hover:to-pastel-lavender/60 text-charcoal font-medium'
+                    : isActive(link.path) 
+                      ? 'text-charcoal font-medium' 
+                      : 'text-text-secondary hover:text-charcoal'
+                  }
+                `}
+              >
+                {link.highlight && <Sparkles size={12} className="text-purple-500" />}
+                {link.name}
+              </Link>
+            ))}
+          </div>
+          
+          {/* Divider */}
+          <div className="w-px h-4 bg-gray-300 mx-4 lg:mx-6" />
+          
+          {/* Secondary Links */}
+          <div className="flex items-center gap-4 lg:gap-6">
+            {secondaryLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                data-testid={`nav-link-${link.name.toLowerCase().replace(/ /g, '-')}`}
+                className={`
+                  font-body text-[11px] lg:text-xs tracking-wider uppercase whitespace-nowrap
+                  transition-colors duration-300
+                  ${isActive(link.path) 
+                    ? 'text-charcoal font-medium' 
+                    : 'text-text-secondary hover:text-charcoal'
+                  }
+                `}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
           
           {/* Cart Icon */}
           <Link
             to="/cart"
-            className="relative p-2 hover:bg-pastel-purple/20 rounded-full transition-colors ml-2"
+            className="relative p-2 hover:bg-pastel-purple/20 rounded-full transition-colors ml-4 lg:ml-6"
             data-testid="cart-icon"
           >
             <ShoppingBag size={20} className="text-charcoal" />
@@ -117,27 +154,30 @@ export const Navbar = () => {
         </Link>
       </nav>
 
-      {/* Mobile Navigation Bar - Visible Menu Items */}
+      {/* Mobile Navigation Bar - Simplified */}
       <div 
         className="md:hidden fixed top-14 left-0 right-0 z-40 bg-gradient-to-r from-pastel-pink/30 via-pastel-lavender/30 to-pastel-mint/30 backdrop-blur-md border-b border-white/40"
         data-testid="mobile-nav-bar"
       >
         <div className="overflow-x-auto scrollbar-hide">
-          <div className="flex items-center gap-1 px-3 py-2 min-w-max">
-            {navLinks.map((link) => (
+          <div className="flex items-center gap-1.5 px-3 py-2 min-w-max">
+            {allLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 data-testid={`mobile-nav-link-${link.name.toLowerCase().replace(/ /g, '-')}`}
                 className={`
-                  font-body text-[11px] tracking-wide uppercase whitespace-nowrap
-                  px-3 py-1.5 rounded-full transition-all duration-300
-                  ${isActive(link.path) 
-                    ? 'bg-charcoal text-white' 
-                    : 'bg-white/60 text-text-secondary hover:bg-white/90'
+                  font-body text-[10px] tracking-wide uppercase whitespace-nowrap
+                  px-2.5 py-1.5 rounded-full transition-all duration-300 flex items-center gap-1
+                  ${link.highlight && !isActive(link.path)
+                    ? 'bg-gradient-to-r from-pastel-pink/60 to-pastel-lavender/60 text-charcoal'
+                    : isActive(link.path) 
+                      ? 'bg-charcoal text-white' 
+                      : 'bg-white/60 text-text-secondary hover:bg-white/90'
                   }
                 `}
               >
+                {link.highlight && <Sparkles size={10} className={isActive(link.path) ? 'text-white' : 'text-purple-500'} />}
                 {link.name}
               </Link>
             ))}
