@@ -371,19 +371,19 @@ const VirtualStudioPage = () => {
         onTouchStart={(e) => handleTouchStart(e, 'strobe')}
         data-testid="strobe-overlay"
       >
-        {/* Full face base glow */}
+        {/* Full face base luminous glow - using screen blend for brightening */}
         <div
           style={{
             position: 'absolute',
-            top: '5%',
-            left: '10%',
-            width: '80%',
-            height: '90%',
-            background: `radial-gradient(ellipse 70% 80% at 50% 45%, ${color}66 0%, ${color}44 30%, ${color}22 60%, transparent 85%)`,
-            opacity: opacity * 0.6,
+            top: '0%',
+            left: '5%',
+            width: '90%',
+            height: '100%',
+            background: `radial-gradient(ellipse 80% 85% at 50% 40%, ${color}99 0%, ${color}66 25%, ${color}33 50%, transparent 75%)`,
+            opacity: opacity * 0.8,
             borderRadius: '45% 45% 40% 40%',
-            filter: 'blur(15px)',
-            mixBlendMode: 'soft-light',
+            filter: 'blur(20px)',
+            mixBlendMode: 'screen',
           }}
         />
         
@@ -391,13 +391,17 @@ const VirtualStudioPage = () => {
         <div
           style={{
             position: 'absolute',
-            top: '5%',
-            left: '20%',
-            width: '60%',
-            height: '18%',
-            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}cc 25%, ${color}66 50%, transparent 80%)`,
-            opacity: opacity,
+            top: '2%',
+            left: '15%',
+            width: '70%',
+            height: '22%',
+            background: `radial-gradient(ellipse at center, white 0%, ${color} 20%, ${color}aa 40%, transparent 70%)`,
+            opacity: opacity * 0.9,
             borderRadius: '50%',
+            filter: 'blur(12px)',
+            mixBlendMode: 'screen',
+          }}
+        />
             filter: 'blur(12px)',
             mixBlendMode: 'overlay',
           }}
