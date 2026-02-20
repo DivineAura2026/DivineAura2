@@ -383,3 +383,71 @@
   );
   opacity: 0.6;
 }
+
+
+/* Hide scrollbar for mobile nav */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Pastel background gradients */
+.pastel-gradient-bg {
+  background: linear-gradient(135deg, 
+    rgba(255, 214, 224, 0.3) 0%, 
+    rgba(232, 213, 242, 0.3) 25%, 
+    rgba(212, 245, 233, 0.3) 50%, 
+    rgba(255, 229, 217, 0.3) 75%, 
+    rgba(214, 238, 255, 0.3) 100%
+  );
+}
+
+/* Pastel card accent */
+.pastel-card {
+  background: linear-gradient(135deg, 
+    rgba(255, 214, 224, 0.15) 0%, 
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(232, 213, 242, 0.15) 100%
+  );
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 214, 224, 0.3);
+}
+
+/* Mobile menu spacing */
+@media (max-width: 768px) {
+  .mobile-adjusted {
+    padding-top: 110px !important;
+  }
+}
+
+/* Pastel section backgrounds */
+.pastel-section-pink {
+  background: linear-gradient(180deg, rgba(255, 214, 224, 0.15) 0%, transparent 100%);
+}
+
+.pastel-section-lavender {
+  background: linear-gradient(180deg, rgba(232, 213, 242, 0.15) 0%, transparent 100%);
+}
+
+.pastel-section-mint {
+  background: linear-gradient(180deg, rgba(212, 245, 233, 0.15) 0%, transparent 100%);
+}
+
+/* Pastel divider */
+.pastel-divider {
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    #FFD6E0 15%, 
+    #E8D5F2 30%, 
+    #D4F5E9 50%, 
+    #FFE5D9 70%, 
+    #D6EEFF 85%, 
+    transparent 100%
+  );
+  opacity: 0.8;
+}
