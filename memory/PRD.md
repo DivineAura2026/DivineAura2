@@ -13,29 +13,36 @@ Modern, conscious beauty consumers interested in clean, luxury, aura-aligned bea
 
 ## Core Requirements (Static)
 - Premium e-commerce website (operational, no waitlist)
-- Navigation: Home, Shop, Aura Analysis, Consult, About, Contact + Cart
-- 17 products across 7 categories
+- Navigation: Home, Shop, Aura Virtual Studio, Aura Analysis, Consult, About, Contact + Cart
+- 20 products across 7 categories (including 3 virtual try-on products)
 - Aura Analysis quiz with personalized recommendations
 - ₹199 dermatologist consultation booking
+- **Virtual Try-On feature** for makeup products
 - Mobile responsive design
 - Luxury beige theme with aura gradient accents
 
-## What's Been Implemented (Feb 2025)
+## What's Been Implemented
 
 ### Pages
-- ✅ Home (Hero, Featured Products, Brand Story, Trust Strip, Aura Discovery CTA, Consult CTA)
-- ✅ Shop (17 products, 7 category filters)
-- ✅ Product Detail (individual product pages)
+- ✅ Home (Hero, Featured Products, Brand Story, Trust Strip, **Virtual Try-On CTA**, Aura Discovery CTA, Consult CTA)
+- ✅ Shop (20 products, 7 category filters)
+- ✅ Product Detail (individual product pages, **"Try This Shade in Aura Studio" button for try-on products**)
 - ✅ Aura Analysis (6 multi-select questions, results with recommendations)
 - ✅ Consult (₹199 dermat consultation form)
 - ✅ Cart (add/remove items, quantity controls, total)
 - ✅ About (brand story, values)
 - ✅ Contact (contact form)
+- ✅ **Aura Virtual Studio** (`/virtual-studio`) - Virtual Try-On feature (Dec 2025)
 
-### Products (17 total)
-Categories: Hair Care (2), Kumkumadi & Gold (2), Ayurvedic Gels (2), Serum (3), Face Cream (3), Body Care (2), Makeup (3)
+### Products (20 total)
+Categories: Hair Care (2), Kumkumadi & Gold (2), Ayurvedic Gels (2), Serum (3), Face Cream (3), Body Care (2), Makeup (6)
 
-Featured Products (7):
+**Virtual Try-On Enabled Products (3):**
+1. Peach Veil Ritual – Satin Lipstick (₹699) - ID 18
+2. Soft Petal Ritual – Cream Blush (₹599) - ID 19
+3. Pearl Glow Ritual – Strobe Cream (₹799) - ID 20
+
+Featured Products (10):
 1. Purple Luxe Ritual – 24K Gold Face Oil (₹1299)
 2. Green Glow Ritual – Kumkumadi Face Pack (₹699)
 3. Yellow Balance Ritual – Anti-Acne Face Serum (₹899)
@@ -43,6 +50,9 @@ Featured Products (7):
 5. Blue Hydration Ritual – Day Cream with Sunscreen (₹749)
 6. Purple Renewal Ritual – Night Cream (₹899)
 7. Red Shield Ritual – Keratin Repair Shampoo (₹549)
+8. Peach Veil Ritual – Satin Lipstick (₹699)
+9. Soft Petal Ritual – Cream Blush (₹599)
+10. Pearl Glow Ritual – Strobe Cream (₹799)
 
 ### Features
 - ✅ Cart with localStorage persistence
@@ -52,6 +62,16 @@ Featured Products (7):
 - ✅ Category filtering on Shop page
 - ✅ Product detail pages with ingredients
 - ✅ Trust indicators (Small-batch, Clean formulations, Dermat-inspired, Personalized)
+- ✅ **Virtual Try-On / Aura Virtual Studio** (Dec 2025):
+  - Image upload for selfies
+  - Category tabs: Lipstick, Blush, Strobe Cream
+  - Shade selection with demo products
+  - Draggable & resizable color overlay
+  - Intensity slider (Light/Medium/Bold)
+  - Add to Cart from Virtual Studio
+  - Query parameter support for deep linking from product pages
+  - Homepage CTA: "Not sure about shades? Try them instantly"
+  - `tryOnEnabled` flag in product data for future expansion
 
 ### Design
 - ✅ Luxury beige theme (#FDFBF7)
