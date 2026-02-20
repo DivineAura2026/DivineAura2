@@ -642,13 +642,38 @@ const VirtualStudioPage = () => {
 
                     {/* Drag hint */}
                     {selectedShade && (
-                      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-center gap-2 p-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-sm">
-                        <Move size={14} className="text-purple-500" />
-                        <span className="font-body text-xs text-charcoal">
-                          {activeCategory === 'blush' 
-                            ? 'Drag each cheek blush to position' 
-                            : 'Drag overlay to position on face'}
-                        </span>
+                      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between p-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-sm">
+                        <div className="flex items-center gap-2">
+                          <Move size={14} className="text-purple-500" />
+                          <span className="font-body text-xs text-charcoal">
+                            {activeCategory === 'blush' 
+                              ? 'Drag each cheek blush to position' 
+                              : 'Drag overlay to position on face'}
+                          </span>
+                        </div>
+                        
+                        {/* Before/After Toggle */}
+                        <button
+                          onClick={() => setShowOverlay(!showOverlay)}
+                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-body transition-all ${
+                            showOverlay 
+                              ? 'bg-purple-500 text-white' 
+                              : 'bg-gray-200 text-charcoal'
+                          }`}
+                          data-testid="before-after-toggle"
+                        >
+                          {showOverlay ? (
+                            <>
+                              <Eye size={12} />
+                              <span>After</span>
+                            </>
+                          ) : (
+                            <>
+                              <EyeOff size={12} />
+                              <span>Before</span>
+                            </>
+                          )}
+                        </button>
                       </div>
                     )}
                   </>
