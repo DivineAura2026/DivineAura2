@@ -73,7 +73,7 @@ export const Navbar = () => {
             <Link
               key={link.path}
               to={link.path}
-              data-testid={`nav-link-${link.name.toLowerCase().replace(' ', '-')}`}
+              data-testid={`nav-link-${link.name.toLowerCase().replace(/ /g, '-')}`}
               className={`
                 font-body text-xs tracking-wider uppercase whitespace-nowrap
                 transition-colors duration-300
@@ -128,7 +128,7 @@ export const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                data-testid={`mobile-nav-link-${link.name.toLowerCase().replace(' ', '-')}`}
+                data-testid={`mobile-nav-link-${link.name.toLowerCase().replace(/ /g, '-')}`}
                 className={`
                   font-body text-[11px] tracking-wide uppercase whitespace-nowrap
                   px-3 py-1.5 rounded-full transition-all duration-300
