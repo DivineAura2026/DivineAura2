@@ -552,30 +552,6 @@ const VirtualStudioPage = () => {
       </div>
     );
   };
-        
-        {/* Chin highlight */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '0',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '50px',
-            height: '35px',
-            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}66 40%, transparent 75%)`,
-            opacity: opacity * 0.7,
-            borderRadius: '50%',
-            filter: 'blur(8px)',
-            mixBlendMode: 'overlay',
-          }}
-        />
-        
-        {activeOverlay === 'strobe' && (
-          <div className="absolute -top-2 -right-2 w-4 h-4 bg-purple-500 rounded-full border-2 border-white shadow-lg" />
-        )}
-      </div>
-    );
-  };
 
   const getCurrentScale = () => {
     if (activeCategory === 'lipstick') return lipScale;
