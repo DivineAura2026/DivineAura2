@@ -345,11 +345,15 @@ const VirtualStudioPage = () => {
     );
   };
 
-  // Render Strobe/Highlight overlay - multiple zones
+  // Render Strobe/Highlight overlay - FULL FACE luminous glow
   const renderStrobeOverlay = () => {
     if (!selectedShade || activeCategory !== 'strobe') return null;
     const opacity = getIntensityOpacity();
     const color = selectedShade.color;
+    
+    // Get container dimensions for full-face coverage
+    const baseWidth = 320 * strobeScale;
+    const baseHeight = 420 * strobeScale;
     
     return (
       <div
@@ -357,79 +361,124 @@ const VirtualStudioPage = () => {
         style={{
           left: `${strobePosition.x}%`,
           top: `${strobePosition.y}%`,
-          transform: `translate(-50%, -50%) scale(${strobeScale})`,
-          width: '200px',
-          height: '280px',
+          transform: 'translate(-50%, -50%)',
+          width: `${baseWidth}px`,
+          height: `${baseHeight}px`,
+          pointerEvents: 'auto',
         }}
         onMouseDown={(e) => handleMouseDown(e, 'strobe')}
         onTouchStart={(e) => handleTouchStart(e, 'strobe')}
         data-testid="strobe-overlay"
       >
-        {/* Forehead highlight */}
+        {/* Full face base glow */}
         <div
           style={{
             position: 'absolute',
-            top: '0',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '100px',
-            height: '50px',
-            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}99 20%, ${color}44 50%, transparent 75%)`,
-            opacity: opacity * 1.2,
+            top: '5%',
+            left: '10%',
+            width: '80%',
+            height: '90%',
+            background: `radial-gradient(ellipse 70% 80% at 50% 45%, ${color}66 0%, ${color}44 30%, ${color}22 60%, transparent 85%)`,
+            opacity: opacity * 0.6,
+            borderRadius: '45% 45% 40% 40%',
+            filter: 'blur(15px)',
+            mixBlendMode: 'soft-light',
+          }}
+        />
+        
+        {/* Forehead highlight - prominent */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '5%',
+            left: '20%',
+            width: '60%',
+            height: '18%',
+            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}cc 25%, ${color}66 50%, transparent 80%)`,
+            opacity: opacity,
             borderRadius: '50%',
+            filter: 'blur(12px)',
+            mixBlendMode: 'overlay',
+          }}
+        />
+        
+        {/* T-zone highlight - nose bridge */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '20%',
+            left: '42%',
+            width: '16%',
+            height: '35%',
+            background: `linear-gradient(to bottom, ${color}ee 0%, ${color}aa 40%, ${color}66 70%, ${color}33 100%)`,
+            opacity: opacity * 0.9,
+            borderRadius: '30%',
             filter: 'blur(8px)',
             mixBlendMode: 'overlay',
           }}
         />
         
-        {/* Nose bridge highlight */}
+        {/* Left cheekbone highlight - larger */}
         <div
           style={{
             position: 'absolute',
-            top: '60px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '25px',
-            height: '80px',
-            background: `linear-gradient(to bottom, ${color}cc, ${color}66, ${color}33)`,
+            top: '35%',
+            left: '5%',
+            width: '35%',
+            height: '20%',
+            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}bb 30%, ${color}55 60%, transparent 85%)`,
             opacity: opacity,
-            borderRadius: '40%',
-            filter: 'blur(5px)',
+            borderRadius: '50%',
+            filter: 'blur(15px)',
             mixBlendMode: 'overlay',
+            transform: 'rotate(-15deg)',
           }}
         />
         
-        {/* Left cheekbone highlight */}
+        {/* Right cheekbone highlight - larger */}
         <div
           style={{
             position: 'absolute',
-            top: '100px',
-            left: '15px',
-            width: '60px',
-            height: '35px',
-            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}88 30%, transparent 70%)`,
+            top: '35%',
+            right: '5%',
+            width: '35%',
+            height: '20%',
+            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}bb 30%, ${color}55 60%, transparent 85%)`,
             opacity: opacity,
             borderRadius: '50%',
-            filter: 'blur(10px)',
+            filter: 'blur(15px)',
             mixBlendMode: 'overlay',
-            transform: 'rotate(-25deg)',
+            transform: 'rotate(15deg)',
           }}
         />
         
-        {/* Right cheekbone highlight */}
+        {/* Under eye area - subtle brightening */}
         <div
           style={{
             position: 'absolute',
-            top: '100px',
-            right: '15px',
-            width: '60px',
-            height: '35px',
-            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}88 30%, transparent 70%)`,
-            opacity: opacity,
+            top: '32%',
+            left: '18%',
+            width: '25%',
+            height: '10%',
+            background: `radial-gradient(ellipse at center, ${color}88 0%, ${color}44 50%, transparent 80%)`,
+            opacity: opacity * 0.7,
             borderRadius: '50%',
             filter: 'blur(10px)',
-            mixBlendMode: 'overlay',
-            transform: 'rotate(25deg)',
+            mixBlendMode: 'soft-light',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            top: '32%',
+            right: '18%',
+            width: '25%',
+            height: '10%',
+            background: `radial-gradient(ellipse at center, ${color}88 0%, ${color}44 50%, transparent 80%)`,
+            opacity: opacity * 0.7,
+            borderRadius: '50%',
+            filter: 'blur(10px)',
+            mixBlendMode: 'soft-light',
           }}
         />
         
@@ -437,18 +486,72 @@ const VirtualStudioPage = () => {
         <div
           style={{
             position: 'absolute',
-            top: '200px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '30px',
-            height: '15px',
-            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}77 40%, transparent 75%)`,
+            top: '62%',
+            left: '38%',
+            width: '24%',
+            height: '8%',
+            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}99 40%, transparent 80%)`,
             opacity: opacity * 0.8,
             borderRadius: '50%',
-            filter: 'blur(4px)',
+            filter: 'blur(6px)',
             mixBlendMode: 'overlay',
           }}
         />
+        
+        {/* Chin highlight */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '5%',
+            left: '30%',
+            width: '40%',
+            height: '15%',
+            background: `radial-gradient(ellipse at center, ${color}bb 0%, ${color}66 40%, transparent 80%)`,
+            opacity: opacity * 0.75,
+            borderRadius: '50%',
+            filter: 'blur(12px)',
+            mixBlendMode: 'overlay',
+          }}
+        />
+        
+        {/* Inner corner eye highlights */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '28%',
+            left: '35%',
+            width: '12%',
+            height: '8%',
+            background: `radial-gradient(circle, ${color} 0%, ${color}88 40%, transparent 75%)`,
+            opacity: opacity * 0.6,
+            borderRadius: '50%',
+            filter: 'blur(5px)',
+            mixBlendMode: 'overlay',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            top: '28%',
+            right: '35%',
+            width: '12%',
+            height: '8%',
+            background: `radial-gradient(circle, ${color} 0%, ${color}88 40%, transparent 75%)`,
+            opacity: opacity * 0.6,
+            borderRadius: '50%',
+            filter: 'blur(5px)',
+            mixBlendMode: 'overlay',
+          }}
+        />
+        
+        {activeOverlay === 'strobe' && (
+          <div className="absolute -top-2 -right-2 w-5 h-5 bg-purple-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center">
+            <Move size={10} className="text-white" />
+          </div>
+        )}
+      </div>
+    );
+  };
         
         {/* Chin highlight */}
         <div
