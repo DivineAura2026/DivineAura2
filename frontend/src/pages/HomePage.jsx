@@ -31,10 +31,10 @@ const HomePage = () => {
   ];
 
   return (
-    <main className="overflow-hidden" data-testid="home-page">
+    <main className="overflow-hidden pt-14 md:pt-0" data-testid="home-page">
       {/* ===== HERO SECTION ===== */}
       <section 
-        className="relative min-h-screen flex items-center justify-center"
+        className="relative min-h-screen flex items-center justify-center pt-16 md:pt-0"
         data-testid="hero-section"
       >
         {/* Background Image */}
@@ -44,8 +44,9 @@ const HomePage = () => {
             alt="Divine Aura Beauty"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-warm-bg/20 to-warm-bg/60" />
-          <div className="absolute inset-0 bg-gradient-to-r from-warm-bg/40 via-transparent to-warm-bg/40" />
+          {/* Soft pastel overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-pastel-pink/20 via-white/30 to-pastel-lavender/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-pastel-mint/20 via-transparent to-pastel-peach/20" />
           
           {/* Aura glow effects */}
           <div 
