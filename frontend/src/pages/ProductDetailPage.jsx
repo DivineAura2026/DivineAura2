@@ -1,16 +1,25 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Plus, Check } from 'lucide-react';
+import { ArrowLeft, Plus, Check, Sparkles } from 'lucide-react';
 import { getProductById, products } from '../data/products';
+import { virtualTryOnProducts } from '../data/virtualTryOn';
 import { useCart } from '../context/CartContext';
 import { ProductCard } from '../components/ProductCard';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const product = getProductById(id);
+  // Try to find product in main catalog first, then in virtual try-on products
+  let product = getProductById(id);
+  if (!product) {
+    product = virtualTryOnProducts.find(p => p.id === parseInt(id));
+  }
   const { addToCart, cartItems } = useCart();
   
   const isInCart = cartItems.some(item => item.id === product?.id);
+  
+  // Check if product has virtual try-on enabled
+  const tryOnProduct = virtualTryOnProducts.find(p => p.id === product?.id);
+  const hasTryOn = tryOnProduct?.tryOnEnabled;
 
   if (!product) {
     return (
@@ -91,6 +100,18 @@ const ProductDetailPage = () => {
                 </>
               )}
             </button>
+
+            {/* Try This Shade in Aura Studio Button */}
+            {hasTryOn && (
+              <Link
+                to={`/virtual-studio?cat=${tryOnProduct.tryOnCategory}&shade=${tryOnProduct.tryOnShade}`}
+                className="w-full md:w-auto flex items-center justify-center gap-2 px-8 py-4 mt-4 rounded-full font-body text-sm tracking-wider uppercase transition-all duration-300 bg-gradient-to-r from-pastel-pink to-pastel-lavender text-charcoal hover:shadow-lg border border-purple-200"
+                data-testid="try-shade-button"
+              >
+                <Sparkles size={18} />
+                Try This Shade in Aura Studio
+              </Link>
+            )}
 
             {/* Ingredients */}
             <div className="mt-12 pt-8 border-t border-gray-200">
