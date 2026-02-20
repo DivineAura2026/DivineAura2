@@ -620,10 +620,14 @@ const VirtualStudioPage = () => {
                       className="w-full h-full object-cover"
                     />
                     
-                    {/* Overlays */}
-                    {renderLipstickOverlay()}
-                    {renderBlushOverlay()}
-                    {renderStrobeOverlay()}
+                    {/* Overlays - conditionally rendered based on Before/After toggle */}
+                    {showOverlay && (
+                      <>
+                        {renderLipstickOverlay()}
+                        {renderBlushOverlay()}
+                        {renderStrobeOverlay()}
+                      </>
+                    )}
 
                     {/* Controls overlay */}
                     <div className="absolute top-4 right-4 flex gap-2">
