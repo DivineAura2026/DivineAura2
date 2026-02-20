@@ -26,8 +26,8 @@ const VirtualStudioPage = () => {
   const [blushRightPosition, setBlushRightPosition] = useState({ x: 75, y: 45 });
   const [blushScale, setBlushScale] = useState(1);
   
-  const [strobePosition, setStrobePosition] = useState({ x: 50, y: 30 });
-  const [strobeScale, setStrobeScale] = useState(1);
+  const [strobePosition, setStrobePosition] = useState({ x: 50, y: 45 });
+  const [strobeScale, setStrobeScale] = useState(1.2);
   
   const [activeOverlay, setActiveOverlay] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
