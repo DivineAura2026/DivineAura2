@@ -57,7 +57,8 @@ const VirtualStudioPage = () => {
         setLipPosition({ x: 50, y: 68 });
         setBlushLeftPosition({ x: 28, y: 48 });
         setBlushRightPosition({ x: 72, y: 48 });
-        setStrobePosition({ x: 50, y: 25 });
+        setStrobePosition({ x: 50, y: 45 });
+        setStrobeScale(1.2);
       };
       reader.readAsDataURL(file);
     }
