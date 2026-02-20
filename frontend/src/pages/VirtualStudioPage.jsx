@@ -411,11 +411,11 @@ const VirtualStudioPage = () => {
             left: '42%',
             width: '16%',
             height: '35%',
-            background: `linear-gradient(to bottom, ${color}ee 0%, ${color}aa 40%, ${color}66 70%, ${color}33 100%)`,
-            opacity: opacity * 0.9,
+            background: `linear-gradient(to bottom, white 0%, ${color} 30%, ${color}aa 60%, transparent 100%)`,
+            opacity: opacity * 0.7,
             borderRadius: '30%',
             filter: 'blur(8px)',
-            mixBlendMode: 'overlay',
+            mixBlendMode: 'screen',
           }}
         />
         
@@ -427,11 +427,11 @@ const VirtualStudioPage = () => {
             left: '5%',
             width: '35%',
             height: '20%',
-            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}bb 30%, ${color}55 60%, transparent 85%)`,
-            opacity: opacity,
+            background: `radial-gradient(ellipse at center, white 0%, ${color} 25%, ${color}88 50%, transparent 80%)`,
+            opacity: opacity * 0.85,
             borderRadius: '50%',
             filter: 'blur(15px)',
-            mixBlendMode: 'overlay',
+            mixBlendMode: 'screen',
             transform: 'rotate(-15deg)',
           }}
         />
@@ -444,11 +444,11 @@ const VirtualStudioPage = () => {
             right: '5%',
             width: '35%',
             height: '20%',
-            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}bb 30%, ${color}55 60%, transparent 85%)`,
-            opacity: opacity,
+            background: `radial-gradient(ellipse at center, white 0%, ${color} 25%, ${color}88 50%, transparent 80%)`,
+            opacity: opacity * 0.85,
             borderRadius: '50%',
             filter: 'blur(15px)',
-            mixBlendMode: 'overlay',
+            mixBlendMode: 'screen',
             transform: 'rotate(15deg)',
           }}
         />
@@ -461,11 +461,11 @@ const VirtualStudioPage = () => {
             left: '18%',
             width: '25%',
             height: '10%',
-            background: `radial-gradient(ellipse at center, ${color}88 0%, ${color}44 50%, transparent 80%)`,
-            opacity: opacity * 0.7,
+            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}66 50%, transparent 80%)`,
+            opacity: opacity * 0.6,
             borderRadius: '50%',
             filter: 'blur(10px)',
-            mixBlendMode: 'soft-light',
+            mixBlendMode: 'screen',
           }}
         />
         <div
@@ -475,11 +475,11 @@ const VirtualStudioPage = () => {
             right: '18%',
             width: '25%',
             height: '10%',
-            background: `radial-gradient(ellipse at center, ${color}88 0%, ${color}44 50%, transparent 80%)`,
-            opacity: opacity * 0.7,
+            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}66 50%, transparent 80%)`,
+            opacity: opacity * 0.6,
             borderRadius: '50%',
             filter: 'blur(10px)',
-            mixBlendMode: 'soft-light',
+            mixBlendMode: 'screen',
           }}
         />
         
@@ -491,11 +491,11 @@ const VirtualStudioPage = () => {
             left: '38%',
             width: '24%',
             height: '8%',
-            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}99 40%, transparent 80%)`,
-            opacity: opacity * 0.8,
+            background: `radial-gradient(ellipse at center, white 0%, ${color} 40%, transparent 80%)`,
+            opacity: opacity * 0.7,
             borderRadius: '50%',
             filter: 'blur(6px)',
-            mixBlendMode: 'overlay',
+            mixBlendMode: 'screen',
           }}
         />
         
@@ -507,11 +507,11 @@ const VirtualStudioPage = () => {
             left: '30%',
             width: '40%',
             height: '15%',
-            background: `radial-gradient(ellipse at center, ${color}bb 0%, ${color}66 40%, transparent 80%)`,
-            opacity: opacity * 0.75,
+            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}88 40%, transparent 80%)`,
+            opacity: opacity * 0.6,
             borderRadius: '50%',
             filter: 'blur(12px)',
-            mixBlendMode: 'overlay',
+            mixBlendMode: 'screen',
           }}
         />
         
@@ -523,11 +523,11 @@ const VirtualStudioPage = () => {
             left: '35%',
             width: '12%',
             height: '8%',
-            background: `radial-gradient(circle, ${color} 0%, ${color}88 40%, transparent 75%)`,
-            opacity: opacity * 0.6,
+            background: `radial-gradient(circle, white 0%, ${color} 40%, transparent 75%)`,
+            opacity: opacity * 0.5,
             borderRadius: '50%',
             filter: 'blur(5px)',
-            mixBlendMode: 'overlay',
+            mixBlendMode: 'screen',
           }}
         />
         <div
@@ -537,11 +537,11 @@ const VirtualStudioPage = () => {
             right: '35%',
             width: '12%',
             height: '8%',
-            background: `radial-gradient(circle, ${color} 0%, ${color}88 40%, transparent 75%)`,
-            opacity: opacity * 0.6,
+            background: `radial-gradient(circle, white 0%, ${color} 40%, transparent 75%)`,
+            opacity: opacity * 0.5,
             borderRadius: '50%',
             filter: 'blur(5px)',
-            mixBlendMode: 'overlay',
+            mixBlendMode: 'screen',
           }}
         />
         
