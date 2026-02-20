@@ -131,19 +131,20 @@ const HomePage = () => {
         </div>
       </section>
 
-      <AuraDivider />
+      {/* Pastel Divider */}
+      <div className="pastel-divider" />
 
       {/* ===== FEATURED PRODUCTS SECTION ===== */}
       <section 
-        className="section-padding"
+        className="section-padding pastel-section-lavender"
         data-testid="featured-section"
       >
         <div className="container-custom">
           <div className="text-center mb-12">
             <p className="font-body text-sm tracking-[0.2em] uppercase text-text-muted mb-4 flex items-center justify-center gap-3">
-              <span className="w-8 h-px bg-gold"></span>
+              <span className="w-8 h-px bg-gradient-to-r from-pastel-pink to-pastel-lavender"></span>
               Curated For You
-              <span className="w-8 h-px bg-gold"></span>
+              <span className="w-8 h-px bg-gradient-to-r from-pastel-lavender to-pastel-mint"></span>
             </p>
             <h2 className="font-display text-3xl md:text-4xl text-charcoal mb-3">
               Featured <span className="italic aura-text">Aura Rituals</span>
