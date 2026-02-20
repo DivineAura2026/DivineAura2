@@ -1,0 +1,145 @@
+{
+  "identity": {
+    "designer": "E1",
+    "mission": "Create a premium, modern, luxurious website for 'Divine Aura' that breaks category conventions.",
+    "core_principles": [
+      "Fusion over Imitation: Mix clean beauty with ethereal aura aesthetics.",
+      "Emotion First: Every interaction must feel 'glowing' and 'intimate'.",
+      "Content is King: Tell the story of 'Inner Glow'.",
+      "Zoom In: Use extreme close-ups for intimacy.",
+      "Negative Space: 60px+ margins are mandatory."
+    ],
+    "hall_of_shame": [
+      "Purple/Teal CTAs (Use Warm Dark Grey or Aura Gradient Borders instead)",
+      "Inter everywhere (Use Manrope + Playfair Display)",
+      "Center-Everything (Use Asymmetry)",
+      "Gradient Overload (Use subtle, blurred aura leaks only)"
+    ]
+  },
+  "theme": {
+    "mode": "light",
+    "strategy": "Warm Minimalist Luxury",
+    "background_base": "#FDFBF7",
+    "foreground_text": "#1A1A1A",
+    "primary_cta": "#2D2D2D",
+    "accent_aura": "conic-gradient(from 180deg at 50% 50%, #D8B4FE 0deg, #818CF8 72deg, #6EE7B7 144deg, #FDE047 216deg, #FB923C 288deg, #F87171 360deg)"
+  },
+  "typography": {
+    "headings": {
+      "family": "Playfair Display, serif",
+      "weights": ["400", "600"],
+      "usage": "Hero titles, Section headers. Use 'italic' for emphasis words.",
+      "letter_spacing": "-0.02em"
+    },
+    "body": {
+      "family": "Manrope, sans-serif",
+      "weights": ["300", "400", "500"],
+      "usage": "Paragraphs, UI elements, Buttons",
+      "letter_spacing": "0.02em"
+    },
+    "installation": "Import from Google Fonts: @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');"
+  },
+  "colors": {
+    "palette": {
+      "neutral_bg": "#FDFBF7",
+      "neutral_surface": "#F5F2EB",
+      "text_primary": "#1A1A1A",
+      "text_secondary": "#5C5C5C",
+      "text_muted": "#858585",
+      "aura_purple": "#D8B4FE",
+      "aura_blue": "#818CF8",
+      "aura_green": "#6EE7B7",
+      "aura_yellow": "#FDE047",
+      "aura_orange": "#FB923C",
+      "aura_red": "#F87171"
+    },
+    "utility": {
+      "success": "#3F6212",
+      "error": "#9F1239",
+      "warning": "#854D0E"
+    }
+  },
+  "layout": {
+    "grid_system": "The 'Tetris' Grid (Mode A) for Marketing Sections.",
+    "spacing": {
+      "container_padding": "px-6 md:px-12 lg:px-24",
+      "section_gap": "gap-24 md:gap-32",
+      "internal_component_padding": "p-8 or p-12"
+    },
+    "container": {
+      "max_width": "max-w-screen-2xl mx-auto"
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-[#2D2D2D] text-white rounded-full px-8 py-4 hover:bg-black transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 text-sm tracking-widest uppercase",
+      "secondary": "bg-transparent border border-[#1A1A1A]/20 text-[#1A1A1A] rounded-full px-8 py-4 hover:border-[#1A1A1A] transition-all duration-300 text-sm tracking-widest uppercase",
+      "aura": "relative overflow-hidden rounded-full p-[1px] group; Inner content bg-[#FDFBF7] text-[#1A1A1A] rounded-full px-8 py-4; Background is the aura gradient spinning."
+    },
+    "cards": {
+      "style": "Glassmorphism with Warmth",
+      "classes": "bg-white/40 backdrop-blur-md border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.04)] rounded-2xl hover:bg-white/60 transition-all duration-500"
+    },
+    "inputs": {
+      "style": "Minimalist",
+      "classes": "bg-transparent border-b border-[#1A1A1A]/20 focus:border-[#1A1A1A] outline-none py-4 text-lg placeholder:text-[#1A1A1A]/40 w-full transition-colors"
+    },
+    "navigation": {
+      "style": "Floating Glass",
+      "classes": "fixed top-6 left-6 right-6 z-50 bg-white/70 backdrop-blur-xl rounded-full px-8 py-4 flex justify-between items-center shadow-sm border border-white/40"
+    }
+  },
+  "visual_enhancers": {
+    "aura_blobs": "Use absolute positioned divs with high blur (blur-3xl or blur-[100px]) and opacity-60 to create ambient background glows. Animate them slowly moving/breathing.",
+    "grain_overlay": "Add a fixed pointer-events-none z-[9999] div with a noise texture opacity-5 mix-blend-overlay to simulate film/paper.",
+    "scroll_smooth": "Implement Lenis for smooth scrolling."
+  },
+  "image_urls": {
+    "hero_model": "https://images.unsplash.com/photo-1581883556531-e5f8027f557f",
+    "brand_story": "https://images.pexels.com/photos/8131571/pexels-photo-8131571.jpeg",
+    "aura_background": "https://images.unsplash.com/photo-1698156731209-b2fae65b5d24",
+    "discovery_bg": "https://images.pexels.com/photos/5914432/pexels-photo-5914432.jpeg",
+    "category_skincare": "https://images.pexels.com/photos/30979444/pexels-photo-30979444.jpeg",
+    "category_botanical": "https://images.unsplash.com/photo-1737316992981-1d2660a3e2c4",
+    "texture_leaf": "https://images.unsplash.com/photo-1730820088296-5b6100551fe6"
+  },
+  "motion": {
+    "reveal": "Staggered fade-up (y: 20 -> 0, opacity: 0 -> 1) with duration-700 ease-out.",
+    "aura_pulse": "Scale 1 -> 1.1 -> 1 infinite duration-10s ease-in-out.",
+    "hover_lift": "y: -4px, shadow-lg duration-300."
+  },
+  "accessibility": {
+    "contrast_check": "Ensure #1A1A1A text on #FDFBF7 bg meets APCA standards.",
+    "focus_states": "Visible focus rings in #1A1A1A.",
+    "prefers_reduced_motion": "Disable aura animations if preferred."
+  },
+  "instructions_to_main_agent": [
+    "1. DESTROY DEFAULT STYLES: Remove all 'text-align: center' from App.css. The design must be asymmetrical and left-aligned.",
+    "2. SETUP FONTS: Add the Google Fonts import to index.css immediately.",
+    "3. CONFIGURE TAILWIND: Add the specific colors (background, aura_*) to tailwind.config.js extension.",
+    "4. CREATE AURA COMPONENT: Build a reusable 'AuraBlob' component for the background effects.",
+    "5. BUILD LAYOUT: Use the 'Tetris' grid for the Hero section (Image on right/center, Text overlapping or offset).",
+    "6. WAITLIST: Make the waitlist form the most interactive element—use the 'Aura' input style.",
+    "7. NAVIGATION: Implement the floating glass navbar.",
+    "8. IMAGES: Use the provided URLs strictly. Do not use generic placeholders."
+  ],
+  "UNIVERSAL_GUIDELINES": [
+    "Do not get biased with the examples.",
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy.",
+    "Use glass-morphism effects with backdrop filters (12-24px blur).",
+    "You MUST NOT apply universal transition. Eg: transition: all.",
+    "You MUST NOT center align the app container, ie do not add .App { text-align: center; } in the css file.",
+    "Always use modern button styles like pill-shaped, or sharp button with interaction animations.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "Subtle grain textures, noise overlays, custom cursors, selection states, and loading animations: separates good from extraordinary.",
+    "Main agent relies on these image URLs. Missing categories = main agent will use placeholder text which is FORBIDDEN.",
+    "Prioritize using pre-existing components from src/components/ui when applicable.",
+    "Components MUST use named exports.",
+    "Pages MUST use default exports.",
+    "Use sonner for toasts.",
+    "All interactive and key informational elements MUST include a data-testid attribute."
+  ]
+}

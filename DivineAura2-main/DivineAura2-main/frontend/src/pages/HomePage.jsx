@@ -31,10 +31,10 @@ const HomePage = () => {
   ];
 
   return (
-    <main className="overflow-hidden pt-14 md:pt-0" data-testid="home-page">
+    <main className="overflow-hidden" data-testid="home-page">
       {/* ===== HERO SECTION ===== */}
       <section 
-        className="relative min-h-screen flex items-center justify-center pt-16 md:pt-0"
+        className="relative min-h-screen flex items-center justify-center"
         data-testid="hero-section"
       >
         {/* Background Image */}
@@ -44,9 +44,8 @@ const HomePage = () => {
             alt="Divine Aura Beauty"
             className="w-full h-full object-cover"
           />
-          {/* Soft pastel overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-pastel-pink/20 via-white/30 to-pastel-lavender/30" />
-          <div className="absolute inset-0 bg-gradient-to-r from-pastel-mint/20 via-transparent to-pastel-peach/20" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-warm-bg/20 to-warm-bg/60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-warm-bg/40 via-transparent to-warm-bg/40" />
           
           {/* Aura glow effects */}
           <div 
@@ -84,24 +83,16 @@ const HomePage = () => {
               Self-manufactured. Thoughtfully formulated.
             </p>
 
-            {/* Trust Indicators - Pastel Pills */}
-            <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10">
-              {trustIndicators.map((item, idx) => {
-                const pastelColors = [
-                  'bg-pastel-pink/60',
-                  'bg-pastel-lavender/60', 
-                  'bg-pastel-mint/60',
-                  'bg-pastel-peach/60'
-                ];
-                return (
-                  <span 
-                    key={idx}
-                    className={`px-3 py-1.5 ${pastelColors[idx]} backdrop-blur-sm rounded-full font-body text-xs text-charcoal/80 border border-white/50`}
-                  >
-                    • {item}
-                  </span>
-                );
-              })}
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap justify-center gap-3 mb-10">
+              {trustIndicators.map((item, idx) => (
+                <span 
+                  key={idx}
+                  className="px-3 py-1 bg-white/60 backdrop-blur-sm rounded-full font-body text-xs text-charcoal/70"
+                >
+                  • {item}
+                </span>
+              ))}
             </div>
             
             <div className="flex flex-wrap gap-4 justify-center">
@@ -131,20 +122,19 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Pastel Divider */}
-      <div className="pastel-divider" />
+      <AuraDivider />
 
       {/* ===== FEATURED PRODUCTS SECTION ===== */}
       <section 
-        className="section-padding pastel-section-lavender"
+        className="section-padding"
         data-testid="featured-section"
       >
         <div className="container-custom">
           <div className="text-center mb-12">
             <p className="font-body text-sm tracking-[0.2em] uppercase text-text-muted mb-4 flex items-center justify-center gap-3">
-              <span className="w-8 h-px bg-gradient-to-r from-pastel-pink to-pastel-lavender"></span>
+              <span className="w-8 h-px bg-gold"></span>
               Curated For You
-              <span className="w-8 h-px bg-gradient-to-r from-pastel-lavender to-pastel-mint"></span>
+              <span className="w-8 h-px bg-gold"></span>
             </p>
             <h2 className="font-display text-3xl md:text-4xl text-charcoal mb-3">
               Featured <span className="italic aura-text">Aura Rituals</span>

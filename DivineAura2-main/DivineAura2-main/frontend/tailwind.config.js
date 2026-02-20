@@ -62,19 +62,6 @@ module.exports = {
           orange: '#FB923C',
           red: '#F87171',
         },
-        // Soft Pastel Colors
-        pastel: {
-          pink: '#FFD6E0',
-          lavender: '#E8D5F2',
-          mint: '#D4F5E9',
-          peach: '#FFE5D9',
-          sky: '#D6EEFF',
-          cream: '#FFF5E6',
-          blush: '#FEC5BB',
-          sage: '#D8E2DC',
-          lilac: '#F0E6FA',
-          coral: '#FFD6CC',
-        },
         gold: {
           DEFAULT: '#D4AF37',
           light: '#F5E6C8',
