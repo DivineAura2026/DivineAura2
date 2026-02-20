@@ -84,8 +84,8 @@ const VirtualStudioPage = () => {
     setBlushLeftPosition({ x: 28, y: 48 });
     setBlushRightPosition({ x: 72, y: 48 });
     setBlushScale(1);
-    setStrobePosition({ x: 50, y: 25 });
-    setStrobeScale(1);
+    setStrobePosition({ x: 50, y: 45 });
+    setStrobeScale(1.2);
     setAddedToCart(false);
     setActiveOverlay(null);
   };
