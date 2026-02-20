@@ -80,12 +80,14 @@ Featured Products (10):
 - ✅ Glass-morphism effects
 - ✅ Golden sparkles and luxury card effects
 - ✅ Mobile responsive
+- ✅ Pastel gradient backgrounds for Virtual Studio
 
 ## MOCKED Features (No Backend)
 - Cart uses localStorage only
 - Forms console.log data
 - Payment buttons are placeholders
 - Consultation booking is placeholder
+- Virtual Try-On uses client-side overlay simulation (no AI/AR)
 
 ## Prioritized Backlog
 
@@ -99,18 +101,21 @@ Featured Products (10):
 - Order history
 - Email notifications (order confirmation, shipping)
 - WhatsApp integration for consultation
+- **Expand Virtual Try-On**: Add more shades dynamically from products with `tryOnEnabled: true`
 
 ### P2 (Medium Priority)
 - Product reviews & ratings
 - Wishlist functionality
 - Related products algorithm
 - Blog/Journal section
+- AI-powered face detection for automatic overlay positioning
 
 ### P3 (Future)
 - Subscription boxes
 - Loyalty program
 - Referral system
 - Multi-language support
+- AR-based virtual try-on with face tracking
 
 ## Next Tasks
 1. Integrate payment gateway (Razorpay for ₹ transactions)
@@ -118,3 +123,4 @@ Featured Products (10):
 3. Add user authentication
 4. Connect consultation form to booking system
 5. Set up email notifications
+6. Add more virtual try-on shades (expand from 3 demo products)
