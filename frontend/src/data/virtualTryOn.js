@@ -129,9 +129,9 @@ export const overlaySettings = {
   },
 };
 
-// Intensity multipliers
+// Intensity multipliers - increased for better visibility
 export const intensityLevels = {
-  light: 0.4,
-  medium: 0.65,
-  bold: 0.9,
+  light: 0.5,
+  medium: 0.75,
+  bold: 1.0,
 };
