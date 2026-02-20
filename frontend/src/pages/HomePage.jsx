@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, Droplets, Leaf, Palette, ArrowRight } from 'lucide-react';
+import { Sparkles, Droplets, Leaf, Palette, ArrowRight, Wand2 } from 'lucide-react';
 import { AuraBlob, BotanicalSVG } from '../components/AuraBlob';
 import { ProductCard } from '../components/ProductCard';
 import { TrustStrip } from '../components/TrustBadge';
@@ -260,6 +260,39 @@ const HomePage = () => {
 
       {/* ===== TRUST STRIP ===== */}
       <TrustStrip />
+
+      {/* ===== VIRTUAL TRY-ON CTA ===== */}
+      <section 
+        className="py-12 md:py-16 section-padding bg-gradient-to-r from-pastel-pink/30 via-pastel-lavender/20 to-pastel-mint/30"
+        data-testid="virtual-tryon-cta"
+      >
+        <div className="container-custom">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 max-w-4xl mx-auto">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-pastel-lavender to-pastel-pink flex items-center justify-center flex-shrink-0">
+                <Wand2 size={24} className="text-purple-600" />
+              </div>
+              <div>
+                <p className="font-display text-lg md:text-xl text-charcoal">
+                  Not sure about shades?
+                </p>
+                <p className="font-body text-sm text-text-secondary">
+                  Try them instantly with our Virtual Studio
+                </p>
+              </div>
+            </div>
+            <Link
+              to="/virtual-studio"
+              className="w-full md:w-auto px-8 py-4 bg-charcoal text-white rounded-full font-body text-sm tracking-wider uppercase hover:bg-charcoal/90 transition-all duration-300 text-center flex items-center justify-center gap-2 group"
+              data-testid="virtual-studio-cta-btn"
+            >
+              <Sparkles size={16} />
+              <span>Try Aura Studio</span>
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </div>
+      </section>
 
       <AuraDivider />
 
