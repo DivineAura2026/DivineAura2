@@ -12,6 +12,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Keratin Protein', 'Argan Oil', 'Biotin', 'Vitamin E'],
     featured: true,
+    tryOnEnabled: false,
   },
   {
     id: 2,
@@ -24,6 +25,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/5938558/pexels-photo-5938558.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Redensyl', 'Caffeine', 'Biotin', 'Rosemary Extract'],
     featured: false,
+    tryOnEnabled: false,
   },
   
   // Kumkumadi & Gold
@@ -38,6 +40,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['24K Gold Flakes', 'Saffron', 'Almond Oil', 'Vitamin E'],
     featured: true,
+    tryOnEnabled: false,
   },
   {
     id: 4,
@@ -50,6 +53,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/3785147/pexels-photo-3785147.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Kumkumadi Tailam', 'Saffron', 'Sandalwood', 'Turmeric'],
     featured: true,
+    tryOnEnabled: false,
   },
   
   // Ayurvedic Gels
@@ -64,6 +68,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/6621462/pexels-photo-6621462.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Aloe Vera', 'Vitamin E', 'Tea Tree', 'Cucumber Extract'],
     featured: false,
+    tryOnEnabled: false,
   },
   {
     id: 6,
@@ -76,6 +81,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/5069432/pexels-photo-5069432.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Neem Extract', 'Tulsi', 'Tea Tree Oil', 'Aloe Vera'],
     featured: false,
+    tryOnEnabled: false,
   },
   
   // Serum
@@ -90,6 +96,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Salicylic Acid', 'Niacinamide', 'Tea Tree', 'Zinc'],
     featured: true,
+    tryOnEnabled: false,
   },
   {
     id: 8,
@@ -102,6 +109,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/4465829/pexels-photo-4465829.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Vitamin C', 'Hyaluronic Acid', 'Ferulic Acid', 'Niacinamide'],
     featured: true,
+    tryOnEnabled: false,
   },
   {
     id: 9,
@@ -114,6 +122,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/6621329/pexels-photo-6621329.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Retinol', 'Bakuchiol', 'Peptides', 'Squalane'],
     featured: false,
+    tryOnEnabled: false,
   },
   
   // Face Cream
@@ -128,6 +137,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/3685530/pexels-photo-3685530.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Hyaluronic Acid', 'SPF 30', 'Niacinamide', 'Ceramides'],
     featured: true,
+    tryOnEnabled: false,
   },
   {
     id: 11,
@@ -140,6 +150,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/4041391/pexels-photo-4041391.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Retinol', 'Peptides', 'Shea Butter', 'Vitamin E'],
     featured: true,
+    tryOnEnabled: false,
   },
   {
     id: 12,
@@ -152,6 +163,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/5069612/pexels-photo-5069612.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Niacinamide', 'Green Tea', 'Salicylic Acid', 'Aloe Vera'],
     featured: false,
+    tryOnEnabled: false,
   },
   
   // Body Care
@@ -166,6 +178,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/4465126/pexels-photo-4465126.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Shea Butter', 'Vitamin E', 'Coconut Oil', 'Almond Oil'],
     featured: false,
+    tryOnEnabled: false,
   },
   {
     id: 14,
@@ -178,6 +191,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/6621188/pexels-photo-6621188.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Walnut Shell', 'Brown Sugar', 'Coconut Oil', 'Vitamin E'],
     featured: false,
+    tryOnEnabled: false,
   },
   
   // Makeup
@@ -192,6 +206,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/2587370/pexels-photo-2587370.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Mineral Pigments', 'Zinc Oxide', 'Mica', 'Jojoba Oil'],
     featured: false,
+    tryOnEnabled: false,
   },
   {
     id: 16,
@@ -204,6 +219,7 @@ export const products = [
     image: 'https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Beetroot Extract', 'Shea Butter', 'Vitamin E', 'Jojoba Oil'],
     featured: false,
+    tryOnEnabled: false,
   },
   {
     id: 17,
@@ -216,6 +232,56 @@ export const products = [
     image: 'https://images.pexels.com/photos/2113855/pexels-photo-2113855.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Castor Oil', 'Camphor', 'Almond Oil', 'Ghee'],
     featured: false,
+    tryOnEnabled: false,
+  },
+  // Virtual Try-On Makeup Products
+  {
+    id: 18,
+    name: 'Peach Veil Ritual – Satin Lipstick',
+    shortName: 'Peach Veil Lipstick',
+    category: 'Makeup',
+    subcategory: 'Lipstick',
+    price: 699,
+    benefit: 'Soft warm nude lipstick with satin matte finish',
+    auraTag: 'Peach Glow',
+    image: 'https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=600',
+    ingredients: ['Shea Butter', 'Vitamin E', 'Jojoba Oil', 'Natural Pigments'],
+    featured: true,
+    tryOnEnabled: true,
+    tryOnShade: 'peach-veil',
+    tryOnCategory: 'lipstick',
+  },
+  {
+    id: 19,
+    name: 'Soft Petal Ritual – Cream Blush',
+    shortName: 'Soft Petal Blush',
+    category: 'Makeup',
+    subcategory: 'Blush',
+    price: 599,
+    benefit: 'Buildable rosy pink cream blush for a natural flush',
+    auraTag: 'Pink Radiance',
+    image: 'https://images.pexels.com/photos/3373739/pexels-photo-3373739.jpeg?auto=compress&cs=tinysrgb&w=600',
+    ingredients: ['Rose Extract', 'Vitamin E', 'Coconut Oil', 'Mica'],
+    featured: true,
+    tryOnEnabled: true,
+    tryOnShade: 'soft-petal',
+    tryOnCategory: 'blush',
+  },
+  {
+    id: 20,
+    name: 'Pearl Glow Ritual – Strobe Cream',
+    shortName: 'Pearl Glow Strobe',
+    category: 'Makeup',
+    subcategory: 'Strobe Cream',
+    price: 799,
+    benefit: 'Champagne highlighter for luminous, dewy skin',
+    auraTag: 'Golden Aura',
+    image: 'https://images.pexels.com/photos/3685530/pexels-photo-3685530.jpeg?auto=compress&cs=tinysrgb&w=600',
+    ingredients: ['Pearl Powder', 'Hyaluronic Acid', 'Vitamin C', 'Mica'],
+    featured: true,
+    tryOnEnabled: true,
+    tryOnShade: 'pearl-glow',
+    tryOnCategory: 'strobe',
   },
 ];
 
