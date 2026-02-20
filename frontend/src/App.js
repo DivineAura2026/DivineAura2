@@ -12,6 +12,7 @@ import ConsultPage from './pages/ConsultPage';
 import CartPage from './pages/CartPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import VirtualStudioPage from './pages/VirtualStudioPage';
 import './App.css';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/virtual-studio" element={<VirtualStudioPage />} />
           </Routes>
           
           <Footer />

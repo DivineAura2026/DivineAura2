@@ -19,6 +19,7 @@ export const Navbar = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Shop', path: '/shop' },
+    { name: 'Aura Virtual Studio', path: '/virtual-studio' },
     { name: 'Aura Analysis', path: '/aura-analysis' },
     { name: 'Consult', path: '/consult' },
     { name: 'About', path: '/about' },
