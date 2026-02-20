@@ -402,10 +402,6 @@ const VirtualStudioPage = () => {
             mixBlendMode: 'screen',
           }}
         />
-            filter: 'blur(12px)',
-            mixBlendMode: 'overlay',
-          }}
-        />
         
         {/* T-zone highlight - nose bridge */}
         <div
