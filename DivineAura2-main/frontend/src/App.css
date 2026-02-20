@@ -1,0 +1,385 @@
+/* Divine Aura - Premium Styles */
+
+/* Remove default center alignment */
+.App {
+  min-height: 100vh;
+  background-color: #FDFBF7;
+}
+
+/* Premium typography utilities */
+.font-display {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-body {
+  font-family: 'Manrope', sans-serif;
+}
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Button hover states */
+.btn-primary {
+  background-color: #2D2D2D;
+  color: white;
+  border-radius: 9999px;
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #1A1A1A;
+  border: 1px solid rgba(26, 26, 26, 0.2);
+  border-radius: 9999px;
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  border-color: #1A1A1A;
+  transform: translateY(-2px);
+}
+
+/* Input styles */
+.input-minimal {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.2);
+  padding: 1rem 0;
+  font-size: 1rem;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.3s ease;
+  font-family: 'Manrope', sans-serif;
+}
+
+.input-minimal:focus {
+  border-bottom-color: #1A1A1A;
+}
+
+.input-minimal::placeholder {
+  color: rgba(26, 26, 26, 0.4);
+}
+
+/* Card glassmorphism */
+.card-glass {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+  border-radius: 1rem;
+  transition: background-color 0.5s ease, transform 0.3s ease;
+}
+
+.card-glass:hover {
+  background: rgba(255, 255, 255, 0.6);
+  transform: translateY(-4px);
+}
+
+/* Section spacing */
+.section-padding {
+  padding: 5rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding: 7rem 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding: 8rem 6rem;
+  }
+}
+
+/* Container */
+.container-custom {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* Link underline effect */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* Aura ring glow */
+.aura-glow {
+  position: relative;
+}
+
+.aura-glow::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: conic-gradient(from 180deg at 50% 50%, 
+    rgba(216, 180, 254, 0.3) 0deg, 
+    rgba(129, 140, 248, 0.3) 72deg, 
+    rgba(110, 231, 183, 0.3) 144deg, 
+    rgba(253, 224, 71, 0.3) 216deg, 
+    rgba(251, 146, 60, 0.3) 288deg, 
+    rgba(248, 113, 113, 0.3) 360deg
+  );
+  filter: blur(60px);
+  border-radius: 50%;
+  z-index: -1;
+  animation: aura-pulse 10s ease-in-out infinite;
+}
+
+/* Trust badge */
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  color: #5C5C5C;
+  white-space: nowrap;
+}
+
+/* Botanical background */
+.botanical-bg {
+  position: absolute;
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+/* ===== LUXURY ENHANCEMENTS ===== */
+
+/* Gold/Champagne accents */
+.text-gold {
+  color: #D4AF37;
+}
+
+.bg-gold {
+  background-color: #D4AF37;
+}
+
+.border-gold {
+  border-color: #D4AF37;
+}
+
+/* Sparkle animation */
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(180deg);
+  }
+}
+
+.animate-sparkle {
+  animation: sparkle 3s ease-in-out infinite;
+}
+
+/* Shimmer effect for buttons and cards */
+.shimmer-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-effect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.shimmer-effect:hover::after {
+  left: 100%;
+}
+
+/* Glow hover effect */
+.glow-hover {
+  transition: box-shadow 0.4s ease, transform 0.3s ease;
+}
+
+.glow-hover:hover {
+  box-shadow: 
+    0 0 20px rgba(212, 175, 55, 0.15),
+    0 0 40px rgba(216, 180, 254, 0.1),
+    0 20px 40px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+}
+
+/* Parallax container */
+.parallax-slow {
+  transition: transform 0.1s ease-out;
+}
+
+/* Luxury card with gold border accent */
+.luxury-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.luxury-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1.5rem;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, transparent 50%, rgba(212, 175, 55, 0.3) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.luxury-card:hover::before {
+  opacity: 1;
+}
+
+.luxury-card:hover {
+  background: rgba(255, 255, 255, 0.7);
+  transform: translateY(-8px);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(212, 175, 55, 0.1);
+}
+
+/* Gold gradient text */
+.gold-text {
+  background: linear-gradient(135deg, #D4AF37 0%, #F5E6C8 50%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Aura spectrum gradient text (red, orange, yellow, green, blue, purple) - darker/vibrant */
+.aura-text {
+  background: linear-gradient(90deg, #DC2626 0%, #EA580C 20%, #CA8A04 40%, #16A34A 60%, #2563EB 80%, #9333EA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% auto;
+  animation: aura-text-shimmer 4s linear infinite;
+}
+
+@keyframes aura-text-shimmer {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Floating animation variants */
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(2deg);
+  }
+}
+
+@keyframes float-reverse {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(15px);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: float-reverse 7s ease-in-out infinite;
+}
+
+/* Section reveal animation */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-section {
+  opacity: 0;
+  animation: reveal-up 0.8s ease-out forwards;
+}
+
+/* Aura gradient divider */
+.aura-divider {
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    #D8B4FE 15%, 
+    #818CF8 30%, 
+    #6EE7B7 50%, 
+    #FDE047 70%, 
+    #FB923C 85%, 
+    transparent 100%
+  );
+  opacity: 0.6;
+}
