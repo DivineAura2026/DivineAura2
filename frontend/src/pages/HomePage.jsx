@@ -84,16 +84,24 @@ const HomePage = () => {
               Self-manufactured. Thoughtfully formulated.
             </p>
 
-            {/* Trust Indicators */}
-            <div className="flex flex-wrap justify-center gap-3 mb-10">
-              {trustIndicators.map((item, idx) => (
-                <span 
-                  key={idx}
-                  className="px-3 py-1 bg-white/60 backdrop-blur-sm rounded-full font-body text-xs text-charcoal/70"
-                >
-                  • {item}
-                </span>
-              ))}
+            {/* Trust Indicators - Pastel Pills */}
+            <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10">
+              {trustIndicators.map((item, idx) => {
+                const pastelColors = [
+                  'bg-pastel-pink/60',
+                  'bg-pastel-lavender/60', 
+                  'bg-pastel-mint/60',
+                  'bg-pastel-peach/60'
+                ];
+                return (
+                  <span 
+                    key={idx}
+                    className={`px-3 py-1.5 ${pastelColors[idx]} backdrop-blur-sm rounded-full font-body text-xs text-charcoal/80 border border-white/50`}
+                  >
+                    • {item}
+                  </span>
+                );
+              })}
             </div>
             
             <div className="flex flex-wrap gap-4 justify-center">
