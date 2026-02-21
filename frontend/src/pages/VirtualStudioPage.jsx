@@ -1,7 +1,11 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { Upload, RotateCcw, ShoppingBag, Sparkles, Move, ZoomIn, ZoomOut, Eye, EyeOff } from 'lucide-react';
-import { virtualTryOnShades, intensityLevels, getProductByShade } from '../data/virtualTryOn';
+import { 
+  Upload, RotateCcw, ShoppingBag, Sparkles, 
+  Paintbrush, Eraser, Undo2, Trash2, Eye, EyeOff,
+  Minus, Plus
+} from 'lucide-react';
+import { virtualTryOnShades, intensityLevels, getProductByShade, brushSettings } from '../data/virtualTryOn';
 import { useCart } from '../context/CartContext';
 import { AuraBlob } from '../components/AuraBlob';
 
@@ -12,31 +16,29 @@ const VirtualStudioPage = () => {
   const initialCategory = searchParams.get('cat') || 'lipstick';
   const initialShade = searchParams.get('shade') || null;
 
+  // Core state
   const [uploadedImage, setUploadedImage] = useState(null);
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [selectedShade, setSelectedShade] = useState(null);
   const [intensity, setIntensity] = useState('medium');
   const [addedToCart, setAddedToCart] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(true); // Before/After toggle
+  const [showOverlay, setShowOverlay] = useState(true);
   
-  // Overlay positions for each type
-  const [lipPosition, setLipPosition] = useState({ x: 50, y: 65 }); // percentage based
-  const [lipScale, setLipScale] = useState(1);
+  // Brush state
+  const [activeTool, setActiveTool] = useState('brush'); // 'brush' or 'eraser'
+  const [brushSize, setBrushSize] = useState(30);
+  const [isDrawing, setIsDrawing] = useState(false);
   
-  const [blushLeftPosition, setBlushLeftPosition] = useState({ x: 25, y: 45 });
-  const [blushRightPosition, setBlushRightPosition] = useState({ x: 75, y: 45 });
-  const [blushScale, setBlushScale] = useState(1);
-  
-  const [strobePosition, setStrobePosition] = useState({ x: 50, y: 45 });
-  const [strobeScale, setStrobeScale] = useState(1.2);
-  
-  const [activeOverlay, setActiveOverlay] = useState(null);
-  const [isDragging, setIsDragging] = useState(false);
+  // Canvas history for undo
+  const [history, setHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
 
+  // Refs
+  const canvasRef = useRef(null);
+  const overlayCanvasRef = useRef(null);
   const containerRef = useRef(null);
   const fileInputRef = useRef(null);
-  const dragStartPos = useRef({ x: 0, y: 0 });
-  const initialPos = useRef({ x: 0, y: 0 });
+  const imageRef = useRef(null);
 
   // Set initial shade from URL param
   useEffect(() => {
@@ -48,18 +50,56 @@ const VirtualStudioPage = () => {
     }
   }, [initialShade, activeCategory]);
 
+  // Update brush size when category changes
+  useEffect(() => {
+    if (activeCategory && brushSettings[activeCategory]) {
+      setBrushSize(brushSettings[activeCategory].defaultSize);
+    }
+  }, [activeCategory]);
+
+  // Initialize canvas when image loads
+  useEffect(() => {
+    if (uploadedImage && canvasRef.current && overlayCanvasRef.current) {
+      const img = new Image();
+      img.onload = () => {
+        imageRef.current = img;
+        const canvas = canvasRef.current;
+        const overlay = overlayCanvasRef.current;
+        
+        // Set canvas size to match container aspect ratio
+        const container = containerRef.current;
+        if (container) {
+          const rect = container.getBoundingClientRect();
+          canvas.width = rect.width;
+          canvas.height = rect.height;
+          overlay.width = rect.width;
+          overlay.height = rect.height;
+          
+          // Draw image on main canvas
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          
+          // Clear overlay
+          const overlayCtx = overlay.getContext('2d');
+          overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
+          
+          // Reset history
+          setHistory([]);
+          setHistoryIndex(-1);
+        }
+      };
+      img.src = uploadedImage;
+    }
+  }, [uploadedImage]);
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = (event) => {
         setUploadedImage(event.target.result);
-        // Reset positions when new image is uploaded
-        setLipPosition({ x: 50, y: 68 });
-        setBlushLeftPosition({ x: 28, y: 48 });
-        setBlushRightPosition({ x: 72, y: 48 });
-        setStrobePosition({ x: 50, y: 45 });
-        setStrobeScale(1.2);
+        setHistory([]);
+        setHistoryIndex(-1);
       };
       reader.readAsDataURL(file);
     }
@@ -69,34 +109,37 @@ const VirtualStudioPage = () => {
     setActiveCategory(category);
     setSelectedShade(null);
     setAddedToCart(false);
-    setActiveOverlay(null);
+    // Clear overlay when changing category
+    if (overlayCanvasRef.current) {
+      const ctx = overlayCanvasRef.current.getContext('2d');
+      ctx.clearRect(0, 0, overlayCanvasRef.current.width, overlayCanvasRef.current.height);
+      setHistory([]);
+      setHistoryIndex(-1);
+    }
   };
 
   const handleShadeSelect = (shade) => {
     setSelectedShade(shade);
     setAddedToCart(false);
-  };
-
-  const handleReset = () => {
-    setSelectedShade(null);
-    setIntensity('medium');
-    setLipPosition({ x: 50, y: 68 });
-    setLipScale(1);
-    setBlushLeftPosition({ x: 28, y: 48 });
-    setBlushRightPosition({ x: 72, y: 48 });
-    setBlushScale(1);
-    setStrobePosition({ x: 50, y: 45 });
-    setStrobeScale(1.2);
-    setAddedToCart(false);
-    setActiveOverlay(null);
+    setActiveTool('brush');
   };
 
   const handleClearImage = () => {
     setUploadedImage(null);
     setSelectedShade(null);
     setAddedToCart(false);
-    setActiveOverlay(null);
+    setHistory([]);
+    setHistoryIndex(-1);
     if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const handleClearOverlay = () => {
+    if (overlayCanvasRef.current) {
+      // Save state before clearing
+      saveToHistory();
+      const ctx = overlayCanvasRef.current.getContext('2d');
+      ctx.clearRect(0, 0, overlayCanvasRef.current.width, overlayCanvasRef.current.height);
+    }
   };
 
   const handleAddToCart = () => {
@@ -108,471 +151,206 @@ const VirtualStudioPage = () => {
     }
   };
 
-  const handleScaleChange = (type, delta) => {
-    if (type === 'lip') {
-      setLipScale(prev => Math.max(0.5, Math.min(2, prev + delta)));
-    } else if (type === 'blush') {
-      setBlushScale(prev => Math.max(0.5, Math.min(2, prev + delta)));
-    } else if (type === 'strobe') {
-      setStrobeScale(prev => Math.max(0.5, Math.min(2, prev + delta)));
+  // Save canvas state to history
+  const saveToHistory = useCallback(() => {
+    if (!overlayCanvasRef.current) return;
+    
+    const canvas = overlayCanvasRef.current;
+    const imageData = canvas.toDataURL();
+    
+    // Remove any redo states
+    const newHistory = history.slice(0, historyIndex + 1);
+    newHistory.push(imageData);
+    
+    // Keep only last 10 states
+    if (newHistory.length > 10) {
+      newHistory.shift();
+    }
+    
+    setHistory(newHistory);
+    setHistoryIndex(newHistory.length - 1);
+  }, [history, historyIndex]);
+
+  // Undo function
+  const handleUndo = () => {
+    if (historyIndex > 0) {
+      const newIndex = historyIndex - 1;
+      setHistoryIndex(newIndex);
+      
+      const img = new Image();
+      img.onload = () => {
+        const ctx = overlayCanvasRef.current.getContext('2d');
+        ctx.clearRect(0, 0, overlayCanvasRef.current.width, overlayCanvasRef.current.height);
+        ctx.drawImage(img, 0, 0);
+      };
+      img.src = history[newIndex];
+    } else if (historyIndex === 0) {
+      // Clear to initial state
+      const ctx = overlayCanvasRef.current.getContext('2d');
+      ctx.clearRect(0, 0, overlayCanvasRef.current.width, overlayCanvasRef.current.height);
+      setHistoryIndex(-1);
     }
   };
 
-  // Drag handlers
-  const handleMouseDown = useCallback((e, overlayId) => {
+  // Get brush color with opacity
+  const getBrushColor = () => {
+    if (!selectedShade) return 'rgba(0,0,0,0)';
+    const opacity = intensityLevels[intensity];
+    const hex = selectedShade.color;
+    
+    // Convert hex to RGB
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+  };
+
+  // Get position relative to canvas
+  const getCanvasPosition = (e) => {
+    const canvas = overlayCanvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    
+    let clientX, clientY;
+    if (e.touches) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+    
+    return {
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY
+    };
+  };
+
+  // Draw brush stroke
+  const drawBrush = (x, y) => {
+    if (!overlayCanvasRef.current || !selectedShade) return;
+    
+    const ctx = overlayCanvasRef.current.getContext('2d');
+    const settings = brushSettings[activeCategory];
+    
+    ctx.save();
+    
+    if (activeTool === 'eraser') {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      // Set blend mode based on category
+      if (settings.blendMode === 'screen') {
+        ctx.globalCompositeOperation = 'screen';
+      } else {
+        ctx.globalCompositeOperation = 'multiply';
+      }
+      
+      // Create gradient for soft brush effect
+      const gradient = ctx.createRadialGradient(x, y, 0, x, y, brushSize / 2);
+      const color = getBrushColor();
+      const softness = settings.softness;
+      
+      // Parse the rgba color
+      const match = color.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/);
+      if (match) {
+        const [, r, g, b, a] = match;
+        
+        if (activeCategory === 'lipstick') {
+          // Cleaner edges for lipstick
+          gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${a})`);
+          gradient.addColorStop(0.7, `rgba(${r}, ${g}, ${b}, ${a * 0.8})`);
+          gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+        } else if (activeCategory === 'blush') {
+          // Soft feathered edges for blush
+          gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${a * 0.7})`);
+          gradient.addColorStop(0.3, `rgba(${r}, ${g}, ${b}, ${a * 0.5})`);
+          gradient.addColorStop(0.6, `rgba(${r}, ${g}, ${b}, ${a * 0.3})`);
+          gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+        } else if (activeCategory === 'strobe') {
+          // Soft glow for strobe
+          gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${a * 0.6})`);
+          gradient.addColorStop(0.4, `rgba(${r}, ${g}, ${b}, ${a * 0.4})`);
+          gradient.addColorStop(0.7, `rgba(${r}, ${g}, ${b}, ${a * 0.2})`);
+          gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+          
+          // Add subtle shimmer effect for strobe
+          if (settings.shimmer) {
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Add tiny highlight spots for shimmer
+            ctx.globalCompositeOperation = 'lighter';
+            const shimmerCount = 3;
+            for (let i = 0; i < shimmerCount; i++) {
+              const offsetX = (Math.random() - 0.5) * brushSize * 0.6;
+              const offsetY = (Math.random() - 0.5) * brushSize * 0.6;
+              const shimmerGradient = ctx.createRadialGradient(
+                x + offsetX, y + offsetY, 0,
+                x + offsetX, y + offsetY, brushSize * 0.1
+              );
+              shimmerGradient.addColorStop(0, `rgba(255, 255, 255, ${a * 0.3})`);
+              shimmerGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+              ctx.fillStyle = shimmerGradient;
+              ctx.beginPath();
+              ctx.arc(x + offsetX, y + offsetY, brushSize * 0.1, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            ctx.restore();
+            return;
+          }
+        }
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    
+    ctx.restore();
+  };
+
+  // Mouse/Touch event handlers
+  const handleStart = (e) => {
+    if (!selectedShade || !showOverlay) return;
     e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-    setActiveOverlay(overlayId);
-    dragStartPos.current = { x: e.clientX, y: e.clientY };
-    
-    // Store initial position based on overlay type
-    if (overlayId === 'lip') {
-      initialPos.current = { ...lipPosition };
-    } else if (overlayId === 'blush-left') {
-      initialPos.current = { ...blushLeftPosition };
-    } else if (overlayId === 'blush-right') {
-      initialPos.current = { ...blushRightPosition };
-    } else if (overlayId === 'strobe') {
-      initialPos.current = { ...strobePosition };
-    }
-  }, [lipPosition, blushLeftPosition, blushRightPosition, strobePosition]);
+    setIsDrawing(true);
+    saveToHistory();
+    const pos = getCanvasPosition(e);
+    drawBrush(pos.x, pos.y);
+  };
 
-  const handleMouseMove = useCallback((e) => {
-    if (!isDragging || !activeOverlay || !containerRef.current) return;
-    
-    const container = containerRef.current;
-    const rect = container.getBoundingClientRect();
-    
-    const deltaX = ((e.clientX - dragStartPos.current.x) / rect.width) * 100;
-    const deltaY = ((e.clientY - dragStartPos.current.y) / rect.height) * 100;
-    
-    const newX = Math.max(5, Math.min(95, initialPos.current.x + deltaX));
-    const newY = Math.max(5, Math.min(95, initialPos.current.y + deltaY));
-    
-    if (activeOverlay === 'lip') {
-      setLipPosition({ x: newX, y: newY });
-    } else if (activeOverlay === 'blush-left') {
-      setBlushLeftPosition({ x: newX, y: newY });
-    } else if (activeOverlay === 'blush-right') {
-      setBlushRightPosition({ x: newX, y: newY });
-    } else if (activeOverlay === 'strobe') {
-      setStrobePosition({ x: newX, y: newY });
-    }
-  }, [isDragging, activeOverlay]);
+  const handleMove = (e) => {
+    if (!isDrawing || !selectedShade || !showOverlay) return;
+    e.preventDefault();
+    const pos = getCanvasPosition(e);
+    drawBrush(pos.x, pos.y);
+  };
 
-  const handleMouseUp = useCallback(() => {
-    setIsDragging(false);
-  }, []);
+  const handleEnd = () => {
+    setIsDrawing(false);
+  };
 
-  useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [handleMouseMove, handleMouseUp]);
-
-  // Touch handlers for mobile
-  const handleTouchStart = useCallback((e, overlayId) => {
-    e.stopPropagation();
-    const touch = e.touches[0];
-    setIsDragging(true);
-    setActiveOverlay(overlayId);
-    dragStartPos.current = { x: touch.clientX, y: touch.clientY };
-    
-    if (overlayId === 'lip') {
-      initialPos.current = { ...lipPosition };
-    } else if (overlayId === 'blush-left') {
-      initialPos.current = { ...blushLeftPosition };
-    } else if (overlayId === 'blush-right') {
-      initialPos.current = { ...blushRightPosition };
-    } else if (overlayId === 'strobe') {
-      initialPos.current = { ...strobePosition };
-    }
-  }, [lipPosition, blushLeftPosition, blushRightPosition, strobePosition]);
-
-  const handleTouchMove = useCallback((e) => {
-    if (!isDragging || !activeOverlay || !containerRef.current) return;
-    
-    const touch = e.touches[0];
-    const container = containerRef.current;
-    const rect = container.getBoundingClientRect();
-    
-    const deltaX = ((touch.clientX - dragStartPos.current.x) / rect.width) * 100;
-    const deltaY = ((touch.clientY - dragStartPos.current.y) / rect.height) * 100;
-    
-    const newX = Math.max(5, Math.min(95, initialPos.current.x + deltaX));
-    const newY = Math.max(5, Math.min(95, initialPos.current.y + deltaY));
-    
-    if (activeOverlay === 'lip') {
-      setLipPosition({ x: newX, y: newY });
-    } else if (activeOverlay === 'blush-left') {
-      setBlushLeftPosition({ x: newX, y: newY });
-    } else if (activeOverlay === 'blush-right') {
-      setBlushRightPosition({ x: newX, y: newY });
-    } else if (activeOverlay === 'strobe') {
-      setStrobePosition({ x: newX, y: newY });
-    }
-  }, [isDragging, activeOverlay]);
-
-  useEffect(() => {
-    window.addEventListener('touchmove', handleTouchMove);
-    window.addEventListener('touchend', handleMouseUp);
-    return () => {
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleMouseUp);
-    };
-  }, [handleTouchMove, handleMouseUp]);
-
-  const getIntensityOpacity = () => intensityLevels[intensity];
-
+  // Category icons
   const categories = [
     { id: 'lipstick', name: 'Lipstick', icon: '💄' },
     { id: 'blush', name: 'Blush', icon: '🌸' },
     { id: 'strobe', name: 'Strobe Cream', icon: '✨' },
   ];
 
-  // Render Lipstick overlay - lip-shaped
-  const renderLipstickOverlay = () => {
-    if (!selectedShade || activeCategory !== 'lipstick') return null;
-    const opacity = getIntensityOpacity();
-    const color = selectedShade.color;
-    
-    return (
-      <div
-        className={`absolute cursor-move ${activeOverlay === 'lip' ? 'z-20' : 'z-10'}`}
-        style={{
-          left: `${lipPosition.x}%`,
-          top: `${lipPosition.y}%`,
-          transform: `translate(-50%, -50%) scale(${lipScale})`,
-        }}
-        onMouseDown={(e) => handleMouseDown(e, 'lip')}
-        onTouchStart={(e) => handleTouchStart(e, 'lip')}
-        data-testid="lipstick-overlay"
-      >
-        {/* Upper lip */}
-        <svg width="120" height="60" viewBox="0 0 120 60" className="overflow-visible">
-          <defs>
-            <filter id="lipBlur" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
-            </filter>
-            <linearGradient id="lipGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor={color} stopOpacity={opacity * 0.8} />
-              <stop offset="50%" stopColor={color} stopOpacity={opacity} />
-              <stop offset="100%" stopColor={color} stopOpacity={opacity * 0.9} />
-            </linearGradient>
-          </defs>
-          {/* Upper lip shape */}
-          <path
-            d="M 10,30 Q 30,15 60,20 Q 90,15 110,30 Q 90,35 60,32 Q 30,35 10,30"
-            fill="url(#lipGradient)"
-            filter="url(#lipBlur)"
-            style={{ mixBlendMode: 'multiply' }}
-          />
-          {/* Lower lip shape */}
-          <path
-            d="M 15,32 Q 30,35 60,33 Q 90,35 105,32 Q 90,55 60,58 Q 30,55 15,32"
-            fill="url(#lipGradient)"
-            filter="url(#lipBlur)"
-            style={{ mixBlendMode: 'multiply' }}
-          />
-        </svg>
-        {activeOverlay === 'lip' && (
-          <div className="absolute -top-2 -right-2 w-4 h-4 bg-purple-500 rounded-full border-2 border-white shadow-lg" />
-        )}
-      </div>
-    );
-  };
-
-  // Render Blush overlay - two circles on cheeks
-  const renderBlushOverlay = () => {
-    if (!selectedShade || activeCategory !== 'blush') return null;
-    const opacity = getIntensityOpacity();
-    const color = selectedShade.color;
-    
-    const blushSize = 100 * blushScale;
-    
-    return (
-      <>
-        {/* Left cheek */}
-        <div
-          className={`absolute cursor-move ${activeOverlay === 'blush-left' ? 'z-20' : 'z-10'}`}
-          style={{
-            left: `${blushLeftPosition.x}%`,
-            top: `${blushLeftPosition.y}%`,
-            transform: 'translate(-50%, -50%)',
-            width: `${blushSize}px`,
-            height: `${blushSize * 0.7}px`,
-            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}88 30%, ${color}44 60%, transparent 80%)`,
-            opacity: opacity,
-            borderRadius: '50%',
-            filter: 'blur(12px)',
-            mixBlendMode: 'multiply',
-          }}
-          onMouseDown={(e) => handleMouseDown(e, 'blush-left')}
-          onTouchStart={(e) => handleTouchStart(e, 'blush-left')}
-          data-testid="blush-left-overlay"
-        >
-          {activeOverlay === 'blush-left' && (
-            <div className="absolute -top-2 -right-2 w-4 h-4 bg-purple-500 rounded-full border-2 border-white shadow-lg" />
-          )}
-        </div>
-        
-        {/* Right cheek */}
-        <div
-          className={`absolute cursor-move ${activeOverlay === 'blush-right' ? 'z-20' : 'z-10'}`}
-          style={{
-            left: `${blushRightPosition.x}%`,
-            top: `${blushRightPosition.y}%`,
-            transform: 'translate(-50%, -50%)',
-            width: `${blushSize}px`,
-            height: `${blushSize * 0.7}px`,
-            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}88 30%, ${color}44 60%, transparent 80%)`,
-            opacity: opacity,
-            borderRadius: '50%',
-            filter: 'blur(12px)',
-            mixBlendMode: 'multiply',
-          }}
-          onMouseDown={(e) => handleMouseDown(e, 'blush-right')}
-          onTouchStart={(e) => handleTouchStart(e, 'blush-right')}
-          data-testid="blush-right-overlay"
-        >
-          {activeOverlay === 'blush-right' && (
-            <div className="absolute -top-2 -right-2 w-4 h-4 bg-purple-500 rounded-full border-2 border-white shadow-lg" />
-          )}
-        </div>
-      </>
-    );
-  };
-
-  // Render Strobe/Highlight overlay - FULL FACE luminous glow
-  const renderStrobeOverlay = () => {
-    if (!selectedShade || activeCategory !== 'strobe') return null;
-    const opacity = getIntensityOpacity();
-    const color = selectedShade.color;
-    
-    // Get container dimensions for full-face coverage
-    const baseWidth = 320 * strobeScale;
-    const baseHeight = 420 * strobeScale;
-    
-    return (
-      <div
-        className={`absolute cursor-move ${activeOverlay === 'strobe' ? 'z-20' : 'z-10'}`}
-        style={{
-          left: `${strobePosition.x}%`,
-          top: `${strobePosition.y}%`,
-          transform: 'translate(-50%, -50%)',
-          width: `${baseWidth}px`,
-          height: `${baseHeight}px`,
-          pointerEvents: 'auto',
-        }}
-        onMouseDown={(e) => handleMouseDown(e, 'strobe')}
-        onTouchStart={(e) => handleTouchStart(e, 'strobe')}
-        data-testid="strobe-overlay"
-      >
-        {/* Full face base luminous glow - using screen blend for brightening */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '0%',
-            left: '5%',
-            width: '90%',
-            height: '100%',
-            background: `radial-gradient(ellipse 80% 85% at 50% 40%, ${color}99 0%, ${color}66 25%, ${color}33 50%, transparent 75%)`,
-            opacity: opacity * 0.8,
-            borderRadius: '45% 45% 40% 40%',
-            filter: 'blur(20px)',
-            mixBlendMode: 'screen',
-          }}
-        />
-        
-        {/* Forehead highlight - prominent */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '2%',
-            left: '15%',
-            width: '70%',
-            height: '22%',
-            background: `radial-gradient(ellipse at center, white 0%, ${color} 20%, ${color}aa 40%, transparent 70%)`,
-            opacity: opacity * 0.9,
-            borderRadius: '50%',
-            filter: 'blur(12px)',
-            mixBlendMode: 'screen',
-          }}
-        />
-        
-        {/* T-zone highlight - nose bridge */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '20%',
-            left: '42%',
-            width: '16%',
-            height: '35%',
-            background: `linear-gradient(to bottom, white 0%, ${color} 30%, ${color}aa 60%, transparent 100%)`,
-            opacity: opacity * 0.7,
-            borderRadius: '30%',
-            filter: 'blur(8px)',
-            mixBlendMode: 'screen',
-          }}
-        />
-        
-        {/* Left cheekbone highlight - larger */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '35%',
-            left: '5%',
-            width: '35%',
-            height: '20%',
-            background: `radial-gradient(ellipse at center, white 0%, ${color} 25%, ${color}88 50%, transparent 80%)`,
-            opacity: opacity * 0.85,
-            borderRadius: '50%',
-            filter: 'blur(15px)',
-            mixBlendMode: 'screen',
-            transform: 'rotate(-15deg)',
-          }}
-        />
-        
-        {/* Right cheekbone highlight - larger */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '35%',
-            right: '5%',
-            width: '35%',
-            height: '20%',
-            background: `radial-gradient(ellipse at center, white 0%, ${color} 25%, ${color}88 50%, transparent 80%)`,
-            opacity: opacity * 0.85,
-            borderRadius: '50%',
-            filter: 'blur(15px)',
-            mixBlendMode: 'screen',
-            transform: 'rotate(15deg)',
-          }}
-        />
-        
-        {/* Under eye area - subtle brightening */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '32%',
-            left: '18%',
-            width: '25%',
-            height: '10%',
-            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}66 50%, transparent 80%)`,
-            opacity: opacity * 0.6,
-            borderRadius: '50%',
-            filter: 'blur(10px)',
-            mixBlendMode: 'screen',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            top: '32%',
-            right: '18%',
-            width: '25%',
-            height: '10%',
-            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}66 50%, transparent 80%)`,
-            opacity: opacity * 0.6,
-            borderRadius: '50%',
-            filter: 'blur(10px)',
-            mixBlendMode: 'screen',
-          }}
-        />
-        
-        {/* Cupid's bow highlight */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '62%',
-            left: '38%',
-            width: '24%',
-            height: '8%',
-            background: `radial-gradient(ellipse at center, white 0%, ${color} 40%, transparent 80%)`,
-            opacity: opacity * 0.7,
-            borderRadius: '50%',
-            filter: 'blur(6px)',
-            mixBlendMode: 'screen',
-          }}
-        />
-        
-        {/* Chin highlight */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '5%',
-            left: '30%',
-            width: '40%',
-            height: '15%',
-            background: `radial-gradient(ellipse at center, ${color} 0%, ${color}88 40%, transparent 80%)`,
-            opacity: opacity * 0.6,
-            borderRadius: '50%',
-            filter: 'blur(12px)',
-            mixBlendMode: 'screen',
-          }}
-        />
-        
-        {/* Inner corner eye highlights */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '28%',
-            left: '35%',
-            width: '12%',
-            height: '8%',
-            background: `radial-gradient(circle, white 0%, ${color} 40%, transparent 75%)`,
-            opacity: opacity * 0.5,
-            borderRadius: '50%',
-            filter: 'blur(5px)',
-            mixBlendMode: 'screen',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            top: '28%',
-            right: '35%',
-            width: '12%',
-            height: '8%',
-            background: `radial-gradient(circle, white 0%, ${color} 40%, transparent 75%)`,
-            opacity: opacity * 0.5,
-            borderRadius: '50%',
-            filter: 'blur(5px)',
-            mixBlendMode: 'screen',
-          }}
-        />
-        
-        {activeOverlay === 'strobe' && (
-          <div className="absolute -top-2 -right-2 w-5 h-5 bg-purple-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center">
-            <Move size={10} className="text-white" />
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  const getCurrentScale = () => {
-    if (activeCategory === 'lipstick') return lipScale;
-    if (activeCategory === 'blush') return blushScale;
-    if (activeCategory === 'strobe') return strobeScale;
-    return 1;
-  };
-
-  const getCurrentScaleType = () => {
-    if (activeCategory === 'lipstick') return 'lip';
-    if (activeCategory === 'blush') return 'blush';
-    if (activeCategory === 'strobe') return 'strobe';
-    return 'lip';
-  };
+  const currentBrushSettings = brushSettings[activeCategory] || brushSettings.lipstick;
 
   return (
     <main className="min-h-screen pt-14 md:pt-0 overflow-hidden" data-testid="virtual-studio-page">
       {/* Hero Header */}
-      <section className="relative pt-24 md:pt-32 pb-8 section-padding">
+      <section className="relative pt-24 md:pt-32 pb-6 section-padding">
         <AuraBlob color="purple" size="lg" className="absolute -right-40 top-20 opacity-10" />
         
         <div className="container-custom relative z-10">
@@ -585,21 +363,22 @@ const VirtualStudioPage = () => {
               Aura <span className="italic aura-text">Virtual Studio</span>
             </h1>
             <p className="font-body text-text-secondary">
-              Preview shades on your selfie before you buy
+              Try your shade. Paint your glow. Decide with confidence.
             </p>
           </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="section-padding pt-0">
+      <section className="section-padding pt-0 pb-12">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-10">
             {/* Left: Canvas Area */}
             <div className="order-2 lg:order-1">
               <div 
                 ref={containerRef}
                 className="relative aspect-[3/4] bg-gradient-to-br from-pastel-pink/20 via-white to-pastel-lavender/20 rounded-2xl overflow-hidden border-2 border-dashed border-gray-200"
+                style={{ touchAction: 'none' }}
               >
                 {!uploadedImage ? (
                   <div 
@@ -614,20 +393,29 @@ const VirtualStudioPage = () => {
                   </div>
                 ) : (
                   <>
-                    <img
-                      src={uploadedImage}
-                      alt="Your selfie"
-                      className="w-full h-full object-cover"
+                    {/* Base image canvas */}
+                    <canvas
+                      ref={canvasRef}
+                      className="absolute inset-0 w-full h-full"
                     />
                     
-                    {/* Overlays - conditionally rendered based on Before/After toggle */}
-                    {showOverlay && (
-                      <>
-                        {renderLipstickOverlay()}
-                        {renderBlushOverlay()}
-                        {renderStrobeOverlay()}
-                      </>
-                    )}
+                    {/* Overlay canvas for painting */}
+                    <canvas
+                      ref={overlayCanvasRef}
+                      className="absolute inset-0 w-full h-full"
+                      style={{ 
+                        cursor: selectedShade ? (activeTool === 'eraser' ? 'crosshair' : 'crosshair') : 'default',
+                        opacity: showOverlay ? 1 : 0,
+                        transition: 'opacity 0.2s ease'
+                      }}
+                      onMouseDown={handleStart}
+                      onMouseMove={handleMove}
+                      onMouseUp={handleEnd}
+                      onMouseLeave={handleEnd}
+                      onTouchStart={handleStart}
+                      onTouchMove={handleMove}
+                      onTouchEnd={handleEnd}
+                    />
 
                     {/* Controls overlay */}
                     <div className="absolute top-4 right-4 flex gap-2">
@@ -640,22 +428,63 @@ const VirtualStudioPage = () => {
                       </button>
                     </div>
 
-                    {/* Drag hint */}
+                    {/* Bottom toolbar */}
                     {selectedShade && (
-                      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between p-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-sm">
+                      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between p-3 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg">
+                        {/* Tool buttons */}
                         <div className="flex items-center gap-2">
-                          <Move size={14} className="text-purple-500" />
-                          <span className="font-body text-xs text-charcoal">
-                            {activeCategory === 'blush' 
-                              ? 'Drag each cheek blush to position' 
-                              : 'Drag overlay to position on face'}
-                          </span>
+                          <button
+                            onClick={() => setActiveTool('brush')}
+                            className={`p-2.5 rounded-lg transition-all ${
+                              activeTool === 'brush' 
+                                ? 'bg-purple-500 text-white shadow-md' 
+                                : 'bg-gray-100 text-charcoal hover:bg-gray-200'
+                            }`}
+                            title="Brush"
+                            data-testid="brush-tool"
+                          >
+                            <Paintbrush size={18} />
+                          </button>
+                          <button
+                            onClick={() => setActiveTool('eraser')}
+                            className={`p-2.5 rounded-lg transition-all ${
+                              activeTool === 'eraser' 
+                                ? 'bg-purple-500 text-white shadow-md' 
+                                : 'bg-gray-100 text-charcoal hover:bg-gray-200'
+                            }`}
+                            title="Eraser"
+                            data-testid="eraser-tool"
+                          >
+                            <Eraser size={18} />
+                          </button>
+                          <div className="w-px h-6 bg-gray-300 mx-1" />
+                          <button
+                            onClick={handleUndo}
+                            disabled={historyIndex < 0}
+                            className={`p-2.5 rounded-lg transition-all ${
+                              historyIndex < 0
+                                ? 'bg-gray-50 text-gray-300 cursor-not-allowed'
+                                : 'bg-gray-100 text-charcoal hover:bg-gray-200'
+                            }`}
+                            title="Undo"
+                            data-testid="undo-btn"
+                          >
+                            <Undo2 size={18} />
+                          </button>
+                          <button
+                            onClick={handleClearOverlay}
+                            className="p-2.5 rounded-lg bg-gray-100 text-charcoal hover:bg-red-100 hover:text-red-600 transition-all"
+                            title="Clear All"
+                            data-testid="clear-all-btn"
+                          >
+                            <Trash2 size={18} />
+                          </button>
                         </div>
                         
                         {/* Before/After Toggle */}
                         <button
                           onClick={() => setShowOverlay(!showOverlay)}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-body transition-all ${
+                          className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-all ${
                             showOverlay 
                               ? 'bg-purple-500 text-white' 
                               : 'bg-gray-200 text-charcoal'
@@ -664,12 +493,12 @@ const VirtualStudioPage = () => {
                         >
                           {showOverlay ? (
                             <>
-                              <Eye size={12} />
+                              <Eye size={14} />
                               <span>After</span>
                             </>
                           ) : (
                             <>
-                              <EyeOff size={12} />
+                              <EyeOff size={14} />
                               <span>Before</span>
                             </>
                           )}
@@ -691,7 +520,7 @@ const VirtualStudioPage = () => {
             </div>
 
             {/* Right: Controls */}
-            <div className="order-1 lg:order-2 space-y-6">
+            <div className="order-1 lg:order-2 space-y-5">
               {/* Category Tabs */}
               <div>
                 <p className="font-body text-sm text-text-muted mb-3">Select Category</p>
@@ -724,13 +553,13 @@ const VirtualStudioPage = () => {
                       onClick={() => handleShadeSelect(shade)}
                       className={`flex items-center gap-3 p-3 rounded-xl border-2 transition-all ${
                         selectedShade?.id === shade.id
-                          ? 'border-purple-400 bg-pastel-lavender/20'
+                          ? 'border-purple-400 bg-pastel-lavender/20 shadow-md'
                           : 'border-gray-200 hover:border-purple-200'
                       }`}
                       data-testid={`shade-${shade.id}`}
                     >
                       <div
-                        className="w-10 h-10 rounded-full border-2 border-white shadow-md"
+                        className="w-12 h-12 rounded-full border-2 border-white shadow-md"
                         style={{ backgroundColor: shade.color }}
                       />
                       <div className="text-left">
@@ -742,69 +571,70 @@ const VirtualStudioPage = () => {
                 </div>
               </div>
 
-              {/* Intensity Slider */}
-              {selectedShade && (
-                <div>
-                  <p className="font-body text-sm text-text-muted mb-3">Intensity</p>
-                  <div className="flex gap-2">
-                    {['light', 'medium', 'bold'].map((level) => (
-                      <button
-                        key={level}
-                        onClick={() => setIntensity(level)}
-                        className={`flex-1 py-2 rounded-lg font-body text-sm capitalize transition-all ${
-                          intensity === level
-                            ? 'bg-charcoal text-white'
-                            : 'bg-gray-100 text-charcoal hover:bg-gray-200'
-                        }`}
-                        data-testid={`intensity-${level}`}
-                      >
-                        {level}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Size Control */}
+              {/* Brush Controls */}
               {selectedShade && uploadedImage && (
-                <div>
-                  <p className="font-body text-sm text-text-muted mb-3">
-                    Overlay Size: {Math.round(getCurrentScale() * 100)}%
-                  </p>
-                  <div className="flex gap-2 items-center">
-                    <button
-                      onClick={() => handleScaleChange(getCurrentScaleType(), -0.1)}
-                      className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-                      disabled={getCurrentScale() <= 0.5}
-                    >
-                      <ZoomOut size={18} className="text-charcoal" />
-                    </button>
-                    <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-purple-400 transition-all"
-                        style={{ width: `${((getCurrentScale() - 0.5) / 1.5) * 100}%` }}
-                      />
+                <>
+                  {/* Brush Size */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="font-body text-sm text-text-muted">Brush Size</p>
+                      <span className="font-body text-xs text-charcoal bg-gray-100 px-2 py-1 rounded">
+                        {brushSize}px
+                      </span>
                     </div>
-                    <button
-                      onClick={() => handleScaleChange(getCurrentScaleType(), 0.1)}
-                      className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-                      disabled={getCurrentScale() >= 2}
-                    >
-                      <ZoomIn size={18} className="text-charcoal" />
-                    </button>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => setBrushSize(Math.max(currentBrushSettings.minSize, brushSize - 5))}
+                        className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                      >
+                        <Minus size={16} className="text-charcoal" />
+                      </button>
+                      <input
+                        type="range"
+                        min={currentBrushSettings.minSize}
+                        max={currentBrushSettings.maxSize}
+                        value={brushSize}
+                        onChange={(e) => setBrushSize(parseInt(e.target.value))}
+                        className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                        data-testid="brush-size-slider"
+                      />
+                      <button
+                        onClick={() => setBrushSize(Math.min(currentBrushSettings.maxSize, brushSize + 5))}
+                        className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                      >
+                        <Plus size={16} className="text-charcoal" />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
 
-              {/* Reset Button */}
-              {selectedShade && (
-                <button
-                  onClick={handleReset}
-                  className="flex items-center gap-2 font-body text-sm text-text-muted hover:text-charcoal transition-colors"
-                >
-                  <RotateCcw size={14} />
-                  Reset Overlay
-                </button>
+                  {/* Intensity */}
+                  <div>
+                    <p className="font-body text-sm text-text-muted mb-2">Intensity / Opacity</p>
+                    <div className="flex gap-2">
+                      {['light', 'medium', 'bold'].map((level) => (
+                        <button
+                          key={level}
+                          onClick={() => setIntensity(level)}
+                          className={`flex-1 py-2.5 rounded-lg font-body text-sm capitalize transition-all ${
+                            intensity === level
+                              ? 'bg-charcoal text-white'
+                              : 'bg-gray-100 text-charcoal hover:bg-gray-200'
+                          }`}
+                          data-testid={`intensity-${level}`}
+                        >
+                          {level}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Brush Info */}
+                  <div className="p-3 bg-pastel-mint/20 rounded-lg border border-pastel-mint/40">
+                    <p className="font-body text-xs text-charcoal">
+                      <strong>{currentBrushSettings.name}:</strong> {currentBrushSettings.description}
+                    </p>
+                  </div>
+                </>
               )}
 
               {/* Selected Shade Info & Add to Cart */}
@@ -812,7 +642,7 @@ const VirtualStudioPage = () => {
                 <div className="p-4 bg-gradient-to-r from-pastel-pink/20 to-pastel-lavender/20 rounded-xl border border-pastel-lavender/30">
                   <div className="flex items-center gap-3 mb-4">
                     <div
-                      className="w-12 h-12 rounded-full border-2 border-white shadow-md"
+                      className="w-14 h-14 rounded-full border-2 border-white shadow-md"
                       style={{ backgroundColor: selectedShade.color }}
                     />
                     <div>
@@ -839,17 +669,13 @@ const VirtualStudioPage = () => {
                 </div>
               )}
 
-              {/* Tips */}
+              {/* Instructions */}
               {uploadedImage && selectedShade && (
-                <div className="p-3 bg-pastel-mint/20 rounded-lg border border-pastel-mint/40">
-                  <p className="font-body text-xs text-charcoal leading-relaxed">
-                    <strong>Tip:</strong> {
-                      activeCategory === 'lipstick' 
-                        ? 'Position the lip overlay on your lips. Use size controls to match your lip size.'
-                        : activeCategory === 'blush'
-                        ? 'Position each blush circle on your cheeks. You can move them independently.'
-                        : 'Position the highlight overlay on your face. It includes forehead, nose, cheekbones, and chin highlights.'
-                    }
+                <div className="p-3 bg-gray-50 rounded-lg">
+                  <p className="font-body text-xs text-text-muted leading-relaxed">
+                    <strong>How to use:</strong> Select a shade, then paint on your selfie. 
+                    Use the eraser to remove mistakes. Adjust brush size and intensity for best results.
+                    Toggle Before/After to compare.
                   </p>
                 </div>
               )}
