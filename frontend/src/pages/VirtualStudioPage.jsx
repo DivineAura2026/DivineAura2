@@ -267,33 +267,33 @@ const VirtualStudioPage = () => {
       const dx = toX - fromX;
       const dy = toY - fromY;
       const distance = Math.sqrt(dx * dx + dy * dy);
-      const steps = Math.max(1, Math.floor(distance / 3)); // More steps = smoother
+      const steps = Math.max(1, Math.floor(distance / 3));
       
       for (let i = 0; i <= steps; i++) {
         const t = i / steps;
         const x = fromX + dx * t;
         const y = fromY + dy * t;
         
-        // Create gradient for soft brush effect at each point
+        // Create gradient for soft brush edges - using EXACT swatch color
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, brushSize / 2);
         
         if (activeCategory === 'lipstick') {
-          // Satin finish - cleaner edges
-          gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.9})`);
-          gradient.addColorStop(0.5, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.7})`);
-          gradient.addColorStop(0.8, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.4})`);
+          // Strong center, soft edges - exact color
+          gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`);
+          gradient.addColorStop(0.6, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.8})`);
+          gradient.addColorStop(0.85, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.3})`);
           gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
         } else if (activeCategory === 'blush') {
-          // Soft diffused - feathered edges
-          gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.6})`);
-          gradient.addColorStop(0.3, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.4})`);
-          gradient.addColorStop(0.6, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.2})`);
+          // Soft diffused - feathered natural flush
+          gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`);
+          gradient.addColorStop(0.4, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.6})`);
+          gradient.addColorStop(0.7, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.25})`);
           gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
         } else if (activeCategory === 'strobe') {
-          // Soft glow - highlight effect
-          gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.5})`);
-          gradient.addColorStop(0.3, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.35})`);
-          gradient.addColorStop(0.6, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.15})`);
+          // Soft glow effect
+          gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`);
+          gradient.addColorStop(0.5, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.5})`);
+          gradient.addColorStop(0.8, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.15})`);
           gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
         }
         
@@ -304,19 +304,19 @@ const VirtualStudioPage = () => {
       }
       
       // Add subtle shimmer for strobe
-      if (activeCategory === 'strobe' && settings.shimmer && distance > 5) {
+      if (activeCategory === 'strobe' && distance > 5) {
         ctx.globalCompositeOperation = 'lighter';
-        const shimmerX = (fromX + toX) / 2 + (Math.random() - 0.5) * brushSize * 0.4;
-        const shimmerY = (fromY + toY) / 2 + (Math.random() - 0.5) * brushSize * 0.4;
+        const shimmerX = (fromX + toX) / 2 + (Math.random() - 0.5) * brushSize * 0.3;
+        const shimmerY = (fromY + toY) / 2 + (Math.random() - 0.5) * brushSize * 0.3;
         const shimmerGradient = ctx.createRadialGradient(
           shimmerX, shimmerY, 0,
-          shimmerX, shimmerY, brushSize * 0.08
+          shimmerX, shimmerY, brushSize * 0.1
         );
-        shimmerGradient.addColorStop(0, `rgba(255, 255, 255, ${color.a * 0.25})`);
+        shimmerGradient.addColorStop(0, `rgba(255, 255, 255, 0.4)`);
         shimmerGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
         ctx.fillStyle = shimmerGradient;
         ctx.beginPath();
-        ctx.arc(shimmerX, shimmerY, brushSize * 0.08, 0, Math.PI * 2);
+        ctx.arc(shimmerX, shimmerY, brushSize * 0.1, 0, Math.PI * 2);
         ctx.fill();
       }
     }
@@ -329,7 +329,6 @@ const VirtualStudioPage = () => {
     if (!overlayCanvasRef.current || !selectedShade) return;
     
     const ctx = overlayCanvasRef.current.getContext('2d');
-    const settings = brushSettings[activeCategory];
     const color = getBrushColorRGBA();
     
     ctx.save();
@@ -338,6 +337,37 @@ const VirtualStudioPage = () => {
       ctx.globalCompositeOperation = 'destination-out';
       ctx.beginPath();
       ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.globalCompositeOperation = 'source-over';
+      
+      const gradient = ctx.createRadialGradient(x, y, 0, x, y, brushSize / 2);
+      
+      if (activeCategory === 'lipstick') {
+        gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`);
+        gradient.addColorStop(0.6, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.8})`);
+        gradient.addColorStop(0.85, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.3})`);
+        gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
+      } else if (activeCategory === 'blush') {
+        gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`);
+        gradient.addColorStop(0.4, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.6})`);
+        gradient.addColorStop(0.7, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.25})`);
+        gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
+      } else if (activeCategory === 'strobe') {
+        gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`);
+        gradient.addColorStop(0.5, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.5})`);
+        gradient.addColorStop(0.8, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.15})`);
+        gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
+      }
+      
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    
+    ctx.restore();
+  };
       ctx.fill();
     } else {
       if (settings.blendMode === 'screen') {
