@@ -193,18 +193,17 @@ const VirtualStudioPage = () => {
     }
   };
 
-  // Get brush color with opacity
-  const getBrushColor = () => {
-    if (!selectedShade) return 'rgba(0,0,0,0)';
+  // Get brush color with opacity - returns rgba object
+  const getBrushColorRGBA = () => {
+    if (!selectedShade) return { r: 0, g: 0, b: 0, a: 0 };
     const opacity = intensityLevels[intensity];
     const hex = selectedShade.color;
     
-    // Convert hex to RGB
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
     const b = parseInt(hex.slice(5, 7), 16);
     
-    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    return { r, g, b, a: opacity };
   };
 
   // Get position relative to canvas
@@ -215,7 +214,7 @@ const VirtualStudioPage = () => {
     const scaleY = canvas.height / rect.height;
     
     let clientX, clientY;
-    if (e.touches) {
+    if (e.touches && e.touches.length > 0) {
       clientX = e.touches[0].clientX;
       clientY = e.touches[0].clientY;
     } else {
@@ -229,12 +228,106 @@ const VirtualStudioPage = () => {
     };
   };
 
-  // Draw brush stroke
-  const drawBrush = (x, y) => {
+  // Draw a smooth line between two points
+  const drawSmoothLine = (fromX, fromY, toX, toY) => {
     if (!overlayCanvasRef.current || !selectedShade) return;
     
     const ctx = overlayCanvasRef.current.getContext('2d');
     const settings = brushSettings[activeCategory];
+    const color = getBrushColorRGBA();
+    
+    ctx.save();
+    
+    if (activeTool === 'eraser') {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = brushSize;
+      ctx.strokeStyle = 'rgba(0,0,0,1)';
+      ctx.beginPath();
+      ctx.moveTo(fromX, fromY);
+      ctx.lineTo(toX, toY);
+      ctx.stroke();
+    } else {
+      // Set blend mode based on category
+      if (settings.blendMode === 'screen') {
+        ctx.globalCompositeOperation = 'screen';
+      } else {
+        ctx.globalCompositeOperation = 'multiply';
+      }
+      
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = brushSize;
+      
+      // Calculate distance for interpolation
+      const dx = toX - fromX;
+      const dy = toY - fromY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const steps = Math.max(1, Math.floor(distance / 3)); // More steps = smoother
+      
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        const x = fromX + dx * t;
+        const y = fromY + dy * t;
+        
+        // Create gradient for soft brush effect at each point
+        const gradient = ctx.createRadialGradient(x, y, 0, x, y, brushSize / 2);
+        
+        if (activeCategory === 'lipstick') {
+          // Satin finish - cleaner edges
+          gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.9})`);
+          gradient.addColorStop(0.5, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.7})`);
+          gradient.addColorStop(0.8, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.4})`);
+          gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
+        } else if (activeCategory === 'blush') {
+          // Soft diffused - feathered edges
+          gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.6})`);
+          gradient.addColorStop(0.3, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.4})`);
+          gradient.addColorStop(0.6, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.2})`);
+          gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
+        } else if (activeCategory === 'strobe') {
+          // Soft glow - highlight effect
+          gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.5})`);
+          gradient.addColorStop(0.3, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.35})`);
+          gradient.addColorStop(0.6, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.15})`);
+          gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
+        }
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      // Add subtle shimmer for strobe
+      if (activeCategory === 'strobe' && settings.shimmer && distance > 5) {
+        ctx.globalCompositeOperation = 'lighter';
+        const shimmerX = (fromX + toX) / 2 + (Math.random() - 0.5) * brushSize * 0.4;
+        const shimmerY = (fromY + toY) / 2 + (Math.random() - 0.5) * brushSize * 0.4;
+        const shimmerGradient = ctx.createRadialGradient(
+          shimmerX, shimmerY, 0,
+          shimmerX, shimmerY, brushSize * 0.08
+        );
+        shimmerGradient.addColorStop(0, `rgba(255, 255, 255, ${color.a * 0.25})`);
+        shimmerGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        ctx.fillStyle = shimmerGradient;
+        ctx.beginPath();
+        ctx.arc(shimmerX, shimmerY, brushSize * 0.08, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    
+    ctx.restore();
+  };
+
+  // Draw a single point (for initial click)
+  const drawPoint = (x, y) => {
+    if (!overlayCanvasRef.current || !selectedShade) return;
+    
+    const ctx = overlayCanvasRef.current.getContext('2d');
+    const settings = brushSettings[activeCategory];
+    const color = getBrushColorRGBA();
     
     ctx.save();
     
@@ -244,75 +337,35 @@ const VirtualStudioPage = () => {
       ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
       ctx.fill();
     } else {
-      // Set blend mode based on category
       if (settings.blendMode === 'screen') {
         ctx.globalCompositeOperation = 'screen';
       } else {
         ctx.globalCompositeOperation = 'multiply';
       }
       
-      // Create gradient for soft brush effect
       const gradient = ctx.createRadialGradient(x, y, 0, x, y, brushSize / 2);
-      const color = getBrushColor();
-      const softness = settings.softness;
       
-      // Parse the rgba color
-      const match = color.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/);
-      if (match) {
-        const [, r, g, b, a] = match;
-        
-        if (activeCategory === 'lipstick') {
-          // Cleaner edges for lipstick
-          gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${a})`);
-          gradient.addColorStop(0.7, `rgba(${r}, ${g}, ${b}, ${a * 0.8})`);
-          gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
-        } else if (activeCategory === 'blush') {
-          // Soft feathered edges for blush
-          gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${a * 0.7})`);
-          gradient.addColorStop(0.3, `rgba(${r}, ${g}, ${b}, ${a * 0.5})`);
-          gradient.addColorStop(0.6, `rgba(${r}, ${g}, ${b}, ${a * 0.3})`);
-          gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
-        } else if (activeCategory === 'strobe') {
-          // Soft glow for strobe
-          gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${a * 0.6})`);
-          gradient.addColorStop(0.4, `rgba(${r}, ${g}, ${b}, ${a * 0.4})`);
-          gradient.addColorStop(0.7, `rgba(${r}, ${g}, ${b}, ${a * 0.2})`);
-          gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
-          
-          // Add subtle shimmer effect for strobe
-          if (settings.shimmer) {
-            ctx.fillStyle = gradient;
-            ctx.beginPath();
-            ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Add tiny highlight spots for shimmer
-            ctx.globalCompositeOperation = 'lighter';
-            const shimmerCount = 3;
-            for (let i = 0; i < shimmerCount; i++) {
-              const offsetX = (Math.random() - 0.5) * brushSize * 0.6;
-              const offsetY = (Math.random() - 0.5) * brushSize * 0.6;
-              const shimmerGradient = ctx.createRadialGradient(
-                x + offsetX, y + offsetY, 0,
-                x + offsetX, y + offsetY, brushSize * 0.1
-              );
-              shimmerGradient.addColorStop(0, `rgba(255, 255, 255, ${a * 0.3})`);
-              shimmerGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-              ctx.fillStyle = shimmerGradient;
-              ctx.beginPath();
-              ctx.arc(x + offsetX, y + offsetY, brushSize * 0.1, 0, Math.PI * 2);
-              ctx.fill();
-            }
-            ctx.restore();
-            return;
-          }
-        }
-        
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
-        ctx.fill();
+      if (activeCategory === 'lipstick') {
+        gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.9})`);
+        gradient.addColorStop(0.5, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.7})`);
+        gradient.addColorStop(0.8, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.4})`);
+        gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
+      } else if (activeCategory === 'blush') {
+        gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.6})`);
+        gradient.addColorStop(0.3, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.4})`);
+        gradient.addColorStop(0.6, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.2})`);
+        gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
+      } else if (activeCategory === 'strobe') {
+        gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.5})`);
+        gradient.addColorStop(0.3, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.35})`);
+        gradient.addColorStop(0.6, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.15})`);
+        gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
       }
+      
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
+      ctx.fill();
     }
     
     ctx.restore();
@@ -325,18 +378,25 @@ const VirtualStudioPage = () => {
     setIsDrawing(true);
     saveToHistory();
     const pos = getCanvasPosition(e);
-    drawBrush(pos.x, pos.y);
+    lastPointRef.current = pos;
+    drawPoint(pos.x, pos.y);
   };
 
   const handleMove = (e) => {
     if (!isDrawing || !selectedShade || !showOverlay) return;
     e.preventDefault();
     const pos = getCanvasPosition(e);
-    drawBrush(pos.x, pos.y);
+    
+    if (lastPointRef.current) {
+      drawSmoothLine(lastPointRef.current.x, lastPointRef.current.y, pos.x, pos.y);
+    }
+    
+    lastPointRef.current = pos;
   };
 
   const handleEnd = () => {
     setIsDrawing(false);
+    lastPointRef.current = null;
   };
 
   // Category icons
