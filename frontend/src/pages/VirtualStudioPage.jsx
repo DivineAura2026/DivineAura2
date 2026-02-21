@@ -368,41 +368,6 @@ const VirtualStudioPage = () => {
     
     ctx.restore();
   };
-      ctx.fill();
-    } else {
-      if (settings.blendMode === 'screen') {
-        ctx.globalCompositeOperation = 'screen';
-      } else {
-        ctx.globalCompositeOperation = 'multiply';
-      }
-      
-      const gradient = ctx.createRadialGradient(x, y, 0, x, y, brushSize / 2);
-      
-      if (activeCategory === 'lipstick') {
-        gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.9})`);
-        gradient.addColorStop(0.5, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.7})`);
-        gradient.addColorStop(0.8, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.4})`);
-        gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
-      } else if (activeCategory === 'blush') {
-        gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.6})`);
-        gradient.addColorStop(0.3, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.4})`);
-        gradient.addColorStop(0.6, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.2})`);
-        gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
-      } else if (activeCategory === 'strobe') {
-        gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.5})`);
-        gradient.addColorStop(0.3, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.35})`);
-        gradient.addColorStop(0.6, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.15})`);
-        gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
-      }
-      
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    
-    ctx.restore();
-  };
 
   // Mouse/Touch event handlers
   const handleStart = (e) => {
