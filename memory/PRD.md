@@ -52,17 +52,14 @@ Categories: Hair Care (2), Kumkumadi & Gold (2), Ayurvedic Gels (2), Serum (3), 
 - ✅ Trust indicators (Small-batch, Clean formulations, Dermat-inspired, Personalized)
 - ✅ **Paint-Brush Virtual Try-On / Aura Virtual Studio** (Dec 2025):
   - Canvas-based painting on uploaded selfie
-  - **Brush Tool** - Paint selected shade color
+  - **Brush Tool** - Paint selected shade color (EXACT swatch color match)
   - **Eraser Tool** - Remove mistakes
   - **Brush Size Slider** - Category-specific ranges
-  - **Intensity/Opacity** - Light (35%) / Medium (55%) / Bold (80%)
   - **Undo** - Minimum 3 steps history
   - **Clear All** - Reset overlay
   - **Before/After Toggle** - Compare with/without effect
-  - Category-specific brush behaviors:
-    - Lipstick: Satin finish, clean edges (5-40px)
-    - Blush: Soft diffused, feathered edges (20-80px)
-    - Strobe: Glow brush with subtle shimmer (15-70px)
+  - Smooth, continuous brush strokes (line interpolation)
+  - All categories use exact swatch HEX color at full opacity
   - Add to Cart from Virtual Studio
   - Query parameter support for deep linking
   - Homepage CTA: "Not sure about shades? Try them instantly"
