@@ -192,7 +192,7 @@ const VirtualStudioPage = () => {
     }
   };
 
-  // Get brush color - returns rgba object with exact swatch color
+  // Get brush color - returns rgba object with EXACT swatch color
   const getBrushColorRGBA = () => {
     if (!selectedShade) return { r: 0, g: 0, b: 0, a: 0 };
     const hex = selectedShade.color;
@@ -201,17 +201,8 @@ const VirtualStudioPage = () => {
     const g = parseInt(hex.slice(3, 5), 16);
     const b = parseInt(hex.slice(5, 7), 16);
     
-    // Use category-specific opacity for natural look
-    let baseOpacity;
-    if (activeCategory === 'lipstick') {
-      baseOpacity = 0.85; // Strong color for lips
-    } else if (activeCategory === 'blush') {
-      baseOpacity = 0.6; // Softer for cheeks
-    } else {
-      baseOpacity = 0.7; // Glow for strobe
-    }
-    
-    return { r, g, b, a: baseOpacity };
+    // Use full opacity for exact color match
+    return { r, g, b, a: 1.0 };
   };
 
   // Get position relative to canvas
@@ -274,28 +265,14 @@ const VirtualStudioPage = () => {
         const x = fromX + dx * t;
         const y = fromY + dy * t;
         
-        // Create gradient for soft brush edges - using EXACT swatch color
+        // Create gradient for soft brush edges - using EXACT swatch color at full opacity
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, brushSize / 2);
         
-        if (activeCategory === 'lipstick') {
-          // Strong center, soft edges - exact color
-          gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`);
-          gradient.addColorStop(0.6, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.8})`);
-          gradient.addColorStop(0.85, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.3})`);
-          gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
-        } else if (activeCategory === 'blush') {
-          // Soft diffused - feathered natural flush
-          gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`);
-          gradient.addColorStop(0.4, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.6})`);
-          gradient.addColorStop(0.7, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.25})`);
-          gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
-        } else if (activeCategory === 'strobe') {
-          // Soft glow effect
-          gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`);
-          gradient.addColorStop(0.5, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.5})`);
-          gradient.addColorStop(0.8, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.15})`);
-          gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
-        }
+        // All categories use exact swatch color with soft edge falloff only
+        gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, 1)`);
+        gradient.addColorStop(0.7, `rgba(${color.r}, ${color.g}, ${color.b}, 1)`);
+        gradient.addColorStop(0.9, `rgba(${color.r}, ${color.g}, ${color.b}, 0.5)`);
+        gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
         
         ctx.fillStyle = gradient;
         ctx.beginPath();
@@ -343,22 +320,11 @@ const VirtualStudioPage = () => {
       
       const gradient = ctx.createRadialGradient(x, y, 0, x, y, brushSize / 2);
       
-      if (activeCategory === 'lipstick') {
-        gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`);
-        gradient.addColorStop(0.6, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.8})`);
-        gradient.addColorStop(0.85, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.3})`);
-        gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
-      } else if (activeCategory === 'blush') {
-        gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`);
-        gradient.addColorStop(0.4, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.6})`);
-        gradient.addColorStop(0.7, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.25})`);
-        gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
-      } else if (activeCategory === 'strobe') {
-        gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`);
-        gradient.addColorStop(0.5, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.5})`);
-        gradient.addColorStop(0.8, `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * 0.15})`);
-        gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
-      }
+      // All categories use exact swatch color with soft edge falloff only
+      gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, 1)`);
+      gradient.addColorStop(0.7, `rgba(${color.r}, ${color.g}, ${color.b}, 1)`);
+      gradient.addColorStop(0.9, `rgba(${color.r}, ${color.g}, ${color.b}, 0.5)`);
+      gradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
       
       ctx.fillStyle = gradient;
       ctx.beginPath();
@@ -663,27 +629,6 @@ const VirtualStudioPage = () => {
                       >
                         <Plus size={16} className="text-charcoal" />
                       </button>
-                    </div>
-                  </div>
-
-                  {/* Intensity */}
-                  <div>
-                    <p className="font-body text-sm text-text-muted mb-2">Intensity / Opacity</p>
-                    <div className="flex gap-2">
-                      {['light', 'medium', 'bold'].map((level) => (
-                        <button
-                          key={level}
-                          onClick={() => setIntensity(level)}
-                          className={`flex-1 py-2.5 rounded-lg font-body text-sm capitalize transition-all ${
-                            intensity === level
-                              ? 'bg-charcoal text-white'
-                              : 'bg-gray-100 text-charcoal hover:bg-gray-200'
-                          }`}
-                          data-testid={`intensity-${level}`}
-                        >
-                          {level}
-                        </button>
-                      ))}
                     </div>
                   </div>
 
