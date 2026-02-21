@@ -4,33 +4,36 @@
 export const virtualTryOnShades = {
   lipstick: [
     {
-      id: 'peach-veil',
-      name: 'Peach Veil',
-      description: 'Soft Warm Nude',
-      color: '#E8A090',
-      overlayColor: 'rgba(232, 160, 144, 0.7)',
-      productId: 18, // Link to product in main catalog
+      id: 'red-earth-aura',
+      name: 'Red Earth Aura',
+      description: 'Reddish Brown',
+      color: '#8C3B32',
+      // Warm reddish brown, brick-terracotta depth
+      // Optimized for medium Indian skin
+      productId: 18,
       tryOnEnabled: true,
     },
   ],
   blush: [
     {
-      id: 'soft-petal',
-      name: 'Soft Petal',
-      description: 'Rosy Pink',
-      color: '#E8B4B8',
-      overlayColor: 'rgba(232, 180, 184, 0.5)',
+      id: 'soft-petal-deep',
+      name: 'Soft Petal Deep',
+      description: 'Deeper Rosy Pink',
+      color: '#C97B84',
+      // Slightly deeper than soft pink, flattering on medium skin
+      // Warm rose-pink tone
       productId: 19,
       tryOnEnabled: true,
     },
   ],
   strobe: [
     {
-      id: 'pearl-glow',
-      name: 'Pearl Glow',
-      description: 'Champagne Highlight',
-      color: '#F5E6D3',
-      overlayColor: 'rgba(245, 230, 211, 0.4)',
+      id: 'golden-aura-glow',
+      name: 'Golden Aura Glow',
+      description: 'Pinkish Golden Highlight',
+      color: '#E8CDB5',
+      // Soft pink-gold champagne for medium skin
+      // Subtle radiance, not icy silver or white
       shimmer: true,
       productId: 20,
       tryOnEnabled: true,
@@ -42,50 +45,50 @@ export const virtualTryOnShades = {
 export const virtualTryOnProducts = [
   {
     id: 18,
-    name: 'Peach Veil Ritual – Satin Lipstick',
-    shortName: 'Peach Veil Lipstick',
+    name: 'Red Earth Aura Ritual – Satin Lipstick',
+    shortName: 'Red Earth Aura Lipstick',
     category: 'Makeup',
     subcategory: 'Lipstick',
     price: 699,
-    benefit: 'Soft warm nude lipstick with satin matte finish',
-    auraTag: 'Peach Glow',
+    benefit: 'Warm reddish brown lipstick with satin matte finish',
+    auraTag: 'Earth Glow',
     image: 'https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Shea Butter', 'Vitamin E', 'Jojoba Oil', 'Natural Pigments'],
-    featured: false,
+    featured: true,
     tryOnEnabled: true,
-    tryOnShade: 'peach-veil',
+    tryOnShade: 'red-earth-aura',
     tryOnCategory: 'lipstick',
   },
   {
     id: 19,
-    name: 'Soft Petal Ritual – Cream Blush',
-    shortName: 'Soft Petal Blush',
+    name: 'Soft Petal Deep Ritual – Cream Blush',
+    shortName: 'Soft Petal Deep Blush',
     category: 'Makeup',
     subcategory: 'Blush',
     price: 599,
-    benefit: 'Buildable rosy pink cream blush for a natural flush',
-    auraTag: 'Pink Radiance',
+    benefit: 'Deeper rosy pink cream blush for a natural flush on medium skin',
+    auraTag: 'Rose Radiance',
     image: 'https://images.pexels.com/photos/3373739/pexels-photo-3373739.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Rose Extract', 'Vitamin E', 'Coconut Oil', 'Mica'],
-    featured: false,
+    featured: true,
     tryOnEnabled: true,
-    tryOnShade: 'soft-petal',
+    tryOnShade: 'soft-petal-deep',
     tryOnCategory: 'blush',
   },
   {
     id: 20,
-    name: 'Pearl Glow Ritual – Strobe Cream',
-    shortName: 'Pearl Glow Strobe',
+    name: 'Golden Aura Glow Ritual – Strobe Cream',
+    shortName: 'Golden Aura Strobe',
     category: 'Makeup',
     subcategory: 'Strobe Cream',
     price: 799,
-    benefit: 'Champagne highlighter for luminous, dewy skin',
+    benefit: 'Pinkish golden highlighter for luminous, radiant skin',
     auraTag: 'Golden Aura',
     image: 'https://images.pexels.com/photos/3685530/pexels-photo-3685530.jpeg?auto=compress&cs=tinysrgb&w=600',
     ingredients: ['Pearl Powder', 'Hyaluronic Acid', 'Vitamin C', 'Mica'],
-    featured: false,
+    featured: true,
     tryOnEnabled: true,
-    tryOnShade: 'pearl-glow',
+    tryOnShade: 'golden-aura-glow',
     tryOnCategory: 'strobe',
   },
 ];
@@ -107,31 +110,46 @@ export const getProductByShade = (category, shadeId) => {
   return virtualTryOnProducts.find(p => p.tryOnCategory === category && p.tryOnShade === shadeId);
 };
 
-// Overlay settings per category
-export const overlaySettings = {
+// Brush settings per category
+export const brushSettings = {
   lipstick: {
-    defaultSize: { width: 80, height: 30 },
+    name: 'Satin Finish',
+    defaultSize: 15,
+    minSize: 5,
+    maxSize: 40,
+    softness: 0.3, // Lower = cleaner edges
     blendMode: 'multiply',
-    blur: 0,
-    borderRadius: '40%',
+    description: 'Smooth satin finish with clean edges',
   },
   blush: {
-    defaultSize: { width: 100, height: 60 },
-    blendMode: 'soft-light',
-    blur: 15,
-    borderRadius: '50%',
+    name: 'Soft Diffused',
+    defaultSize: 40,
+    minSize: 20,
+    maxSize: 80,
+    softness: 0.8, // Higher = more feathered
+    blendMode: 'multiply',
+    description: 'Feathered edges for natural cheek tint',
   },
   strobe: {
-    defaultSize: { width: 120, height: 40 },
-    blendMode: 'overlay',
-    blur: 20,
-    borderRadius: '50%',
+    name: 'Glow Brush',
+    defaultSize: 35,
+    minSize: 15,
+    maxSize: 70,
+    softness: 0.7,
+    blendMode: 'screen',
+    shimmer: true,
+    description: 'Soft glow with subtle shimmer effect',
   },
 };
 
-// Intensity multipliers - increased for better visibility
+// Intensity/Opacity levels
 export const intensityLevels = {
-  light: 0.5,
-  medium: 0.75,
-  bold: 1.0,
+  light: 0.35,
+  medium: 0.55,
+  bold: 0.8,
+};
+
+// Get all shades for a category (for future dynamic loading)
+export const getShadesByCategory = (category) => {
+  return virtualTryOnShades[category]?.filter(s => s.tryOnEnabled) || [];
 };
