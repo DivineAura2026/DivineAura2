@@ -678,7 +678,7 @@ const VirtualStudioPage = () => {
                 <div className="p-3 bg-gray-50 rounded-lg">
                   <p className="font-body text-xs text-text-muted leading-relaxed">
                     <strong>How to use:</strong> Select a shade, then paint on your selfie. 
-                    Use the eraser to remove mistakes. Adjust brush size and intensity for best results.
+                    Use the eraser to remove mistakes. Adjust brush size for best results.
                     Toggle Before/After to compare.
                   </p>
                 </div>
