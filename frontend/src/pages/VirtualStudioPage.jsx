@@ -192,17 +192,26 @@ const VirtualStudioPage = () => {
     }
   };
 
-  // Get brush color with opacity - returns rgba object
+  // Get brush color - returns rgba object with exact swatch color
   const getBrushColorRGBA = () => {
     if (!selectedShade) return { r: 0, g: 0, b: 0, a: 0 };
-    const opacity = intensityLevels[intensity];
     const hex = selectedShade.color;
     
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
     const b = parseInt(hex.slice(5, 7), 16);
     
-    return { r, g, b, a: opacity };
+    // Use category-specific opacity for natural look
+    let baseOpacity;
+    if (activeCategory === 'lipstick') {
+      baseOpacity = 0.85; // Strong color for lips
+    } else if (activeCategory === 'blush') {
+      baseOpacity = 0.6; // Softer for cheeks
+    } else {
+      baseOpacity = 0.7; // Glow for strobe
+    }
+    
+    return { r, g, b, a: baseOpacity };
   };
 
   // Get position relative to canvas
@@ -232,7 +241,6 @@ const VirtualStudioPage = () => {
     if (!overlayCanvasRef.current || !selectedShade) return;
     
     const ctx = overlayCanvasRef.current.getContext('2d');
-    const settings = brushSettings[activeCategory];
     const color = getBrushColorRGBA();
     
     ctx.save();
@@ -248,12 +256,8 @@ const VirtualStudioPage = () => {
       ctx.lineTo(toX, toY);
       ctx.stroke();
     } else {
-      // Set blend mode based on category
-      if (settings.blendMode === 'screen') {
-        ctx.globalCompositeOperation = 'screen';
-      } else {
-        ctx.globalCompositeOperation = 'multiply';
-      }
+      // Use source-over to paint the actual color on top
+      ctx.globalCompositeOperation = 'source-over';
       
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
