@@ -5,7 +5,7 @@ import {
   Paintbrush, Eraser, Undo2, Trash2, Eye, EyeOff,
   Minus, Plus
 } from 'lucide-react';
-import { virtualTryOnShades, intensityLevels, getProductByShade, brushSettings } from '../data/virtualTryOn';
+import { virtualTryOnShades, getProductByShade, brushSettings } from '../data/virtualTryOn';
 import { useCart } from '../context/CartContext';
 import { AuraBlob } from '../components/AuraBlob';
 
