@@ -39,6 +39,7 @@ const VirtualStudioPage = () => {
   const containerRef = useRef(null);
   const fileInputRef = useRef(null);
   const imageRef = useRef(null);
+  const lastPointRef = useRef(null); // Track last point for smooth lines
 
   // Set initial shade from URL param
   useEffect(() => {
