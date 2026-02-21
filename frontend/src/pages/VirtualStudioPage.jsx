@@ -20,7 +20,6 @@ const VirtualStudioPage = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [selectedShade, setSelectedShade] = useState(null);
-  const [intensity, setIntensity] = useState('medium');
   const [addedToCart, setAddedToCart] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
   
